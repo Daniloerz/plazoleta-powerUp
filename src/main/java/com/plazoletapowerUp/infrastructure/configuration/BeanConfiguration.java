@@ -1,11 +1,11 @@
 package com.plazoletapowerUp.infrastructure.configuration;
 
-import com.plazoletapowerUp.domain.api.IObjectServicePort;
-import com.plazoletapowerUp.domain.spi.IObjectPersistencePort;
-import com.plazoletapowerUp.domain.usecase.ObjectUseCase;
-import com.plazoletapowerUp.infrastructure.out.jpa.adapter.ObjectJpaAdapter;
-import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IObjectEntityMapper;
-import com.plazoletapowerUp.infrastructure.out.jpa.repository.IObjectRepository;
+import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
+import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
+import com.plazoletapowerUp.domain.usecase.RestauranteUseCase;
+import com.plazoletapowerUp.infrastructure.out.jpa.adapter.RestauranteJpaAdapter;
+import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEntityMapper;
+import com.plazoletapowerUp.infrastructure.out.jpa.repository.IRestauranteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,16 +13,16 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 public class BeanConfiguration {
-    private final IObjectRepository objectRepository;
-    private final IObjectEntityMapper objectEntityMapper;
+    private final IRestauranteRepository restauranteRepository;
+    private final IRestauranteEntityMapper restauranteEntityMapper;
 
     @Bean
-    public IObjectPersistencePort objectPersistencePort() {
-        return new ObjectJpaAdapter(objectRepository, objectEntityMapper);
+    public IRestaurantePersistencePort restaurantePersistencePort() {
+        return new RestauranteJpaAdapter(restauranteRepository, restauranteEntityMapper);
     }
 
     @Bean
-    public IObjectServicePort objectServicePort() {
-        return new ObjectUseCase(objectPersistencePort());
+    public IRestauranteServicePort restauranteServicePort() {
+        return new RestauranteUseCase(restaurantePersistencePort());
     }
 }

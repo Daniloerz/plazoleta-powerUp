@@ -13,17 +13,19 @@ public class RestauranteUseCase implements IRestauranteServicePort {
 
     public final Logger log = LoggerFactory.getLogger(RestauranteUseCase.class);
 
-    private final IRestaurantePersistencePort usuarioPersistencePort;
+    private final IRestaurantePersistencePort restaurantePersistencePort;
 
 
 
     public RestauranteUseCase(IRestaurantePersistencePort restaurantePersistencePort) {
-        this.usuarioPersistencePort = restaurantePersistencePort;
+        this.restaurantePersistencePort = restaurantePersistencePort;
     }
 
     @Override
-    public void saveRestaurante(RestauranteModel restauranteModel) {
+    public void saveRestauranteSP(RestauranteModel restauranteModel) {
+
         this.validateRestaurante(restauranteModel);
+        restaurantePersistencePort.saveRestaurante(restauranteModel);
     }
 
     private void validateRestaurante(RestauranteModel restauranteModel) {

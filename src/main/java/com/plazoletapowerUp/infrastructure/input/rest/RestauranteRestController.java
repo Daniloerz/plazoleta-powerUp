@@ -9,7 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/restaurante")
@@ -23,7 +26,7 @@ public class RestauranteRestController {
             @ApiResponse(responseCode = "201", description = "Restaurant created", content = @Content),
             @ApiResponse(responseCode = "409", description = "Restaurant already exists", content = @Content)
     })
-    @PostMapping("/")
+    @PostMapping("/create-restaurante")
     public ResponseEntity<Void> createRestaurante(@RequestBody RestauranteRequestDto restauranteRequestDto) {
         try {
             restauranteHandler.saveRestaurante(restauranteRequestDto);

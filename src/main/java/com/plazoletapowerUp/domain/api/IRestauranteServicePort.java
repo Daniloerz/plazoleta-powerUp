@@ -5,5 +5,5 @@ import com.plazoletapowerUp.domain.model.RestauranteModel;
 
 public interface IRestauranteServicePort {
 
-    void saveRestaurante(RestauranteModel restauranteModel);
+    void saveRestauranteSP(RestauranteModel restauranteModel);
 }
