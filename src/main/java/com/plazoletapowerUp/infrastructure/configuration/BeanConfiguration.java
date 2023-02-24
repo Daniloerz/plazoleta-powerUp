@@ -54,4 +54,5 @@ public class BeanConfiguration {
     public IPlatosServicePort platosServicePort() {
         return new PlatosUseCase(platosPersistencePort(), categoriaPersistencePort(), restaurantePersistencePort());
     }
+
 }

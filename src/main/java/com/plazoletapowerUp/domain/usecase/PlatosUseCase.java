@@ -17,7 +17,7 @@ public class PlatosUseCase implements IPlatosServicePort {
     private final IPlatosPersistencePort platosPersistencePort;
     private final ICategoriaPersistencePort categoriaPersistencePort;
     private final IRestaurantePersistencePort restaurantePersistencePort;
-    private boolean price;
+
 
     public PlatosUseCase(IPlatosPersistencePort platosPersistencePort, ICategoriaPersistencePort categoriaPersistencePort, IRestaurantePersistencePort restaurantePersistencePort) {
         this.platosPersistencePort = platosPersistencePort;
@@ -36,6 +36,14 @@ public class PlatosUseCase implements IPlatosServicePort {
         platosModel.setId_categoria(categoriaModel.getId());
         platosModel.setId_restaurante(restauranteModel.getId());
         platosPersistencePort.savePlatoPP(platosModel);
+    }
+
+    @Override
+    public PlatosModel updatePlatoSP(PlatosModel platosModel) {
+        PlatosModel platosModel1= platosPersistencePort.findPlatoById(platosModel);
+        platosModel1.setPrecio(platosModel.getPrecio());
+        platosModel1.setDescripcion(platosModel.getDescripcion());
+        return platosPersistencePort.savePlatoPP(platosModel1);
     }
 
     private void validatePrecio(Integer precio){
