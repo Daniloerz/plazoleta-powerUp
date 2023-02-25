@@ -6,5 +6,6 @@ public interface IPlatosServicePort {
 
     void savePlatosSP(PlatosModel platosModel);
 
-    PlatosModel updatePlatoSP(PlatosModel platosModel);
+    PlatosModel updatePlatoByPriceDescriptionSP(PlatosModel platosModel);
+    PlatosModel updatePlatoActiveSP(PlatosModel platosModel);
 }

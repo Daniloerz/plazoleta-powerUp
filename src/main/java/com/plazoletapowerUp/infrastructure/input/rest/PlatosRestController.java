@@ -1,5 +1,6 @@
 package com.plazoletapowerUp.infrastructure.input.rest;
 
+import com.plazoletapowerUp.application.dto.request.PlatosRequestActiveDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestPatchDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
@@ -36,11 +37,23 @@ public class PlatosRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
+    public ResponseEntity<Void> updateDishPriceDescription(@PathVariable Integer id, @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
 
         try {
             platosRequestPatchDto.setId(id);
-            platosHandler.updatePlato(platosRequestPatchDto);
+            platosHandler.updatePlatoByPriceDescription(platosRequestPatchDto);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/active/{id}")
+    public ResponseEntity<Void> updateDishActive(@PathVariable Integer id, @RequestBody PlatosRequestActiveDto platosRequestActiveDto){
+
+        try {
+            platosRequestActiveDto.setId(id);
+            platosHandler.updatePlatoActive(platosRequestActiveDto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

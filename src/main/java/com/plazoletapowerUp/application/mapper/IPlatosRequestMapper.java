@@ -1,5 +1,6 @@
 package com.plazoletapowerUp.application.mapper;
 
+import com.plazoletapowerUp.application.dto.request.PlatosRequestActiveDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestPatchDto;
 import com.plazoletapowerUp.domain.model.PlatosModel;
@@ -12,5 +13,6 @@ import org.mapstruct.ReportingPolicy;
 public interface IPlatosRequestMapper {
     PlatosModel toPlatosModel(PlatosRequestDto platosRequestDto);
     PlatosModel toPlatosModel(PlatosRequestPatchDto platosRequestPatchDto);
+    PlatosModel toPlatosModel(PlatosRequestActiveDto platosRequestActiveDto);
 
 }

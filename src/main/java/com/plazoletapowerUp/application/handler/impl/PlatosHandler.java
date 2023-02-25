@@ -1,5 +1,6 @@
 package com.plazoletapowerUp.application.handler.impl;
 
+import com.plazoletapowerUp.application.dto.request.PlatosRequestActiveDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestPatchDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
@@ -24,7 +25,12 @@ public class PlatosHandler implements IPlatosHandler {
     }
 
     @Override
-    public PlatosModel updatePlato(PlatosRequestPatchDto platosRequestPatchDto) {
-        return platosServicePort.updatePlatoSP(platosRequestMapper.toPlatosModel(platosRequestPatchDto));
+    public PlatosModel updatePlatoByPriceDescription(PlatosRequestPatchDto platosRequestPatchDto) {
+        return platosServicePort.updatePlatoByPriceDescriptionSP(platosRequestMapper.toPlatosModel(platosRequestPatchDto));
+    }
+
+    @Override
+    public PlatosModel updatePlatoActive(PlatosRequestActiveDto platosRequestActiveDto) {
+        return platosServicePort.updatePlatoActiveSP(platosRequestMapper.toPlatosModel(platosRequestActiveDto));
     }
 }
