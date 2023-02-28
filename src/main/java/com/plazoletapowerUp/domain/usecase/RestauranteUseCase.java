@@ -3,10 +3,12 @@ package com.plazoletapowerUp.domain.usecase;
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
 import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
+import com.plazoletapowerUp.domain.model.RestaurantePageable;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class RestauranteUseCase implements IRestauranteServicePort {
@@ -26,6 +28,12 @@ public class RestauranteUseCase implements IRestauranteServicePort {
 
         this.validateRestaurante(restauranteModel);
         restaurantePersistencePort.saveRestaurante(restauranteModel);
+    }
+
+    @Override
+    public RestaurantePageable findAllRestaurantesSP(Integer page) {
+        return  restaurantePersistencePort.findAllRestaurantesPP(page);
+
     }
 
     private void validateRestaurante(RestauranteModel restauranteModel) {

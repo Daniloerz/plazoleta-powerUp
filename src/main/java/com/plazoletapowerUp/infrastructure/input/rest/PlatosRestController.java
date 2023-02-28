@@ -50,7 +50,6 @@ public class PlatosRestController {
 
     @PatchMapping("/active/{id}")
     public ResponseEntity<Void> updateDishActive(@PathVariable Integer id, @RequestBody PlatosRequestActiveDto platosRequestActiveDto){
-
         try {
             platosRequestActiveDto.setId(id);
             platosHandler.updatePlatoActive(platosRequestActiveDto);
