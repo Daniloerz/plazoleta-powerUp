@@ -4,6 +4,7 @@ import com.plazoletapowerUp.domain.api.IPlatosServicePort;
 import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.CategoriaModel;
 import com.plazoletapowerUp.domain.model.PlatosModel;
+import com.plazoletapowerUp.domain.model.PlatosRestaurantePageableModel;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
 import com.plazoletapowerUp.domain.spi.ICategoriaPersistencePort;
 import com.plazoletapowerUp.domain.spi.IPlatosPersistencePort;
@@ -29,12 +30,12 @@ public class PlatosUseCase implements IPlatosServicePort {
     public void savePlatosSP(PlatosModel platosModel) {
         platosModel.setActivo(true);
 
-        CategoriaModel categoriaModel = categoriaPersistencePort.findById(platosModel.getId_categoria());
-        RestauranteModel restauranteModel = restaurantePersistencePort.findByIdPP(platosModel.getId_restaurante());
+        CategoriaModel categoriaModel = categoriaPersistencePort.findById(platosModel.getIdCategoria());
+        RestauranteModel restauranteModel = restaurantePersistencePort.findByIdPP(platosModel.getIdRestaurante());
         this.validatePrecio(platosModel.getPrecio());
 
-        platosModel.setId_categoria(categoriaModel.getId());
-        platosModel.setId_restaurante(restauranteModel.getId());
+        platosModel.setIdCategoria(categoriaModel.getId());
+        platosModel.setIdRestaurante(restauranteModel.getId());
         platosPersistencePort.savePlatoPP(platosModel);
     }
 
@@ -47,10 +48,15 @@ public class PlatosUseCase implements IPlatosServicePort {
     }
 
     @Override
-    public PlatosModel updatePlatoActiveSP(PlatosModel platosModel) {
-        PlatosModel platosModel1= platosPersistencePort.findPlatoById(platosModel);
-        platosModel1.setActivo(platosModel.isActivo());
+    public PlatosModel updatePlatoActiveSP(Integer id, Boolean isActive) {
+        PlatosModel platosModel1= platosPersistencePort.findPlatoById(id);
+        platosModel1.setActivo(isActive);
         return platosPersistencePort.savePlatoPP(platosModel1);
+    }
+
+    @Override
+    public PlatosRestaurantePageableModel findPlatosByRestaurante(Integer id, Integer initPage, Integer numElementsPage) {
+        return platosPersistencePort.findPlatosByIdAndPageable(id, initPage, numElementsPage);
     }
 
     private void validatePrecio(Integer precio){

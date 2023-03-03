@@ -15,6 +15,6 @@ public interface IRestauranteEntityMapper {
 
     RestauranteEntity toEntity(RestauranteModel restauranteModel);
     RestauranteModel toRestauranteModel(RestauranteEntity restauranteEntity);
-    List<RestauranteModel> toRestauranteModelList(List<RestauranteEntity> userEntityList);
+    List<RestauranteModel> toRestauranteModelList(List<RestauranteEntity> restauranteEntityList);
 
 }

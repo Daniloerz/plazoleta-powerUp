@@ -23,7 +23,7 @@ public class PlatosEntity {
     private Integer precio;
     private String descripcion;
     private String urlImagen;
-    private Integer id_categoria;
+    private Integer idCategoria;
     private boolean activo;
-    private Integer id_restaurante;
+    private Integer idRestaurante;
 }

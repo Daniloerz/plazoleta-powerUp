@@ -1,7 +1,6 @@
 package com.plazoletapowerUp.application.mapper;
 
 import com.plazoletapowerUp.application.dto.request.RestauranteRequestDto;
-import com.plazoletapowerUp.application.dto.response.RestaurantePageResponseDto;
 import com.plazoletapowerUp.application.dto.response.RestauranteResponseDto;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
 import org.mapstruct.Mapper;

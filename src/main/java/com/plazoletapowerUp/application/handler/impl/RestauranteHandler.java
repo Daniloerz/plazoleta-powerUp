@@ -2,7 +2,6 @@ package com.plazoletapowerUp.application.handler.impl;
 
 import com.plazoletapowerUp.application.dto.request.RestauranteRequestDto;
 import com.plazoletapowerUp.application.dto.response.RestaurantePageResponseDto;
-import com.plazoletapowerUp.application.dto.response.RestauranteResponseDto;
 import com.plazoletapowerUp.application.handler.IRestauranteHandler;
 import com.plazoletapowerUp.application.mapper.IRestauranteRequestMapper;
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
@@ -10,8 +9,6 @@ import com.plazoletapowerUp.domain.model.RestaurantePageable;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

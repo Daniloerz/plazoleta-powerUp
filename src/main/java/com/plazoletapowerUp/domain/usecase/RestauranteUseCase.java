@@ -8,7 +8,6 @@ import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
 import java.util.regex.Pattern;
 
 public class RestauranteUseCase implements IRestauranteServicePort {

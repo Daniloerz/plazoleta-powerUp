@@ -1,8 +1,6 @@
 package com.plazoletapowerUp.application.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
