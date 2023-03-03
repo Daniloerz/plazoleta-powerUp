@@ -5,18 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
 @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PlatosModel {
-    private Integer id;
-    private String nombre;
+public class PlatoRestauranteModel {
+    private String nombrePlato;
+    private String nombreCategoria;
     private Integer precio;
-    private String descripcion;
+    private String descripcionPlato;
     private String urlImagen;
-    private Integer idCategoria;
-    private boolean activo;
-    private Integer idRestaurante;
-
+    private String nombreRestaurante;
 }

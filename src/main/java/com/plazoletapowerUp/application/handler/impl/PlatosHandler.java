@@ -1,15 +1,21 @@
 package com.plazoletapowerUp.application.handler.impl;
 
-import com.plazoletapowerUp.application.dto.request.PlatosRequestActiveDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestPatchDto;
+import com.plazoletapowerUp.application.dto.response.PlatosPageResponseDto;
+import com.plazoletapowerUp.application.dto.response.PlatosResponseDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
 import com.plazoletapowerUp.application.mapper.IPlatosRequestMapper;
 import com.plazoletapowerUp.domain.api.IPlatosServicePort;
 import com.plazoletapowerUp.domain.model.PlatosModel;
+import com.plazoletapowerUp.domain.model.PlatosRestaurantePageableModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,11 +32,39 @@ public class PlatosHandler implements IPlatosHandler {
 
     @Override
     public PlatosModel updatePlatoByPriceDescription(PlatosRequestPatchDto platosRequestPatchDto) {
-        return platosServicePort.updatePlatoByPriceDescriptionSP(platosRequestMapper.toPlatosModel(platosRequestPatchDto));
+        return platosServicePort
+                .updatePlatoByPriceDescriptionSP(platosRequestMapper.toPlatosModel(platosRequestPatchDto));
     }
 
     @Override
-    public PlatosModel updatePlatoActive(PlatosRequestActiveDto platosRequestActiveDto) {
-        return platosServicePort.updatePlatoActiveSP(platosRequestMapper.toPlatosModel(platosRequestActiveDto));
+    public PlatosModel updatePlatoActive(Integer id, Boolean isActive) {
+        return platosServicePort.updatePlatoActiveSP(id, isActive);
     }
+
+    @Override
+    public PlatosPageResponseDto findPlatosByIdRestaurante(Integer id, Integer initPage, Integer numElementsPage) {
+        PlatosRestaurantePageableModel platosRestaurantePageableModel = platosServicePort
+                .findPlatosByRestaurante(id, initPage, numElementsPage);
+        PlatosPageResponseDto platosPageResponseDto = new PlatosPageResponseDto();
+        platosPageResponseDto.setPage(initPage);
+        platosPageResponseDto.setPageSize(numElementsPage);
+        platosPageResponseDto.setTotalPages(platosRestaurantePageableModel.getPagesAmount());
+        platosPageResponseDto.setNombreRestaurante(platosRestaurantePageableModel
+                .getPlatoRestauranteModelList().get(0).getNombreRestaurante());
+
+        final Map<String, List<PlatosResponseDto>> stringPlatosResponseDtoMap = platosRestaurantePageableModel
+                .getPlatoRestauranteModelList()
+                .stream()
+                .map(platoRestauranteModel -> new PlatosResponseDto(platoRestauranteModel.getNombrePlato(),
+                        platoRestauranteModel.getPrecio(),
+                        platoRestauranteModel.getDescripcionPlato(),
+                        platoRestauranteModel.getUrlImagen(),
+                        platoRestauranteModel.getNombreCategoria()))
+                .collect(Collectors.groupingBy(PlatosResponseDto::getNombreCategoria));
+
+        platosPageResponseDto.setPlatosCategoriaMap(stringPlatosResponseDtoMap);
+        return platosPageResponseDto;
+    }
+
+
 }
