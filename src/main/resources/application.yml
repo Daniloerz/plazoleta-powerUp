@@ -2,6 +2,11 @@ server:
   port: 8082
 
 spring:
+  eureka:
+    instance:
+      instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  application:
+    name: plazoleta-powerup
   datasource:
     url: jdbc:mysql://us-east.connect.psdb.cloud/mysql-db?sslMode=VERIFY_IDENTITY
     username: 8bmqgarky5vcya0s8rxz

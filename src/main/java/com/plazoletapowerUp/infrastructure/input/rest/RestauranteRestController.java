@@ -34,6 +34,7 @@ public class RestauranteRestController {
             restauranteHandler.saveRestaurante(restauranteRequestDto);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }

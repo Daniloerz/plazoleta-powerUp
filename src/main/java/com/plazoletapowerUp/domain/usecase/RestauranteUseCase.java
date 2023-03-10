@@ -1,9 +1,11 @@
 package com.plazoletapowerUp.domain.usecase;
 
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
+import com.plazoletapowerUp.domain.client.IUsuarioClientPort;
 import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
 import com.plazoletapowerUp.domain.model.RestaurantePageable;
+import com.plazoletapowerUp.domain.responseDtoModel.UsuarioResponseDtoModel;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +16,17 @@ public class RestauranteUseCase implements IRestauranteServicePort {
 
     public final Logger log = LoggerFactory.getLogger(RestauranteUseCase.class);
 
+
     private final IRestaurantePersistencePort restaurantePersistencePort;
+    private final IUsuarioClientPort usuarioClientPort;
 
-
-
-    public RestauranteUseCase(IRestaurantePersistencePort restaurantePersistencePort) {
+    public RestauranteUseCase(IRestaurantePersistencePort restaurantePersistencePort, IUsuarioClientPort usuarioClientPort) {
         this.restaurantePersistencePort = restaurantePersistencePort;
+        this.usuarioClientPort = usuarioClientPort;
     }
 
     @Override
     public void saveRestauranteSP(RestauranteModel restauranteModel) {
-
         this.validateRestaurante(restauranteModel);
         restaurantePersistencePort.saveRestaurante(restauranteModel);
     }
@@ -39,6 +41,7 @@ public class RestauranteUseCase implements IRestauranteServicePort {
         this.validateNombreRestaurante(restauranteModel.getNombre());
         this.validateTelefonoRestaurante(restauranteModel.getTelefono());
         this.validateNit(restauranteModel.getNit());
+        this.validatePropietarioRole(restauranteModel.getIdPropietario());
     }
 
     private void validateNombreRestaurante(String nombreRestaurante){
@@ -71,6 +74,14 @@ public class RestauranteUseCase implements IRestauranteServicePort {
         if(!pattern.matcher(nit).matches()){
             log.error("Nit invalido");
             throw new ValidationException("Nit invalido");
+        }
+    }
+
+    private void validatePropietarioRole(Integer idUsuario){
+        final UsuarioResponseDtoModel usuarioById = usuarioClientPort.findUsuarioById(idUsuario);
+        if(!usuarioById.getRole().getNombre().equalsIgnoreCase("propietario")){
+            log.error("Role invalido {}", usuarioById.getRole().getNombre());
+            throw new ValidationException("Role no valido para crear restaurante");
         }
     }
 }
