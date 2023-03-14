@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface IPlatosRepository extends JpaRepository<PlatosEntity,Integer> {
 
-    @Query(nativeQuery = true, value = "select c.nombre as nombreCategoria, p.nombre as nombrePlato, p.precio, p.descripcion as descripcionPlato,p.url_imagen as urlImagen, r.nombre as nombreRestaurante  from platos p \n" +
+    @Query(nativeQuery = true, value = "select c.nombre as nombreCategoria, p.id_plato as id, p.nombre as nombrePlato, p.precio, p.descripcion as descripcionPlato,p.url_imagen as urlImagen, r.nombre as nombreRestaurante  from platos p \n" +
             "inner join categoria c on p.id_categoria  = c.id_categoria \n" +
             "inner join restaurantes r on p.id_restaurante = r.id \n" +
-            "where p.id_restaurante = :idRestaurante\n" +
-            "group by p.nombre , p.precio ,p.descripcion ,p.url_imagen , c.nombre ")
+            "where p.id_restaurante = :idRestaurante and p.activo = 1 \n" +
+            "group by p.nombre , p.precio ,p.descripcion ,p.url_imagen , c.nombre, p.id_plato ")
     Page<IPlatoRestaurante> getPlatosByRestaurante (@Param("idRestaurante") Integer idRestaurante, Pageable page);
 }

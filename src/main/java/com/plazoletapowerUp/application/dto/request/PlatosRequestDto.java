@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PlatosRequestDto {
-    private Integer idUser;
     private Integer idRestaurante;
     private String nombre;
     private Integer precio;

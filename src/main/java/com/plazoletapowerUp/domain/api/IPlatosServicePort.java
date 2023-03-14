@@ -5,7 +5,7 @@ import com.plazoletapowerUp.domain.model.PlatosRestaurantePageableModel;
 
 public interface IPlatosServicePort {
 
-    void savePlatosSP(PlatosModel platosModel);
+    void savePlatosSP(PlatosModel platosModel, Integer idPropietario);
 
     PlatosModel updatePlatoByPriceDescriptionSP(PlatosModel platosModel);
     PlatosModel updatePlatoActiveSP(Integer id, Boolean isActive);

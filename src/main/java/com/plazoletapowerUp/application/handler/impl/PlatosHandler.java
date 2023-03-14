@@ -26,8 +26,8 @@ public class PlatosHandler implements IPlatosHandler {
     private final IPlatosRequestMapper platosRequestMapper;
 
     @Override
-    public void savePlatos(PlatosRequestDto platosRequestDto) {
-        platosServicePort.savePlatosSP(platosRequestMapper.toPlatosModel(platosRequestDto));
+    public void savePlatos(PlatosRequestDto platosRequestDto, Integer idPropietario) {
+        platosServicePort.savePlatosSP(platosRequestMapper.toPlatosModel(platosRequestDto), idPropietario);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class PlatosHandler implements IPlatosHandler {
         final Map<String, List<PlatosResponseDto>> stringPlatosResponseDtoMap = platosRestaurantePageableModel
                 .getPlatoRestauranteModelList()
                 .stream()
-                .map(platoRestauranteModel -> new PlatosResponseDto(platoRestauranteModel.getNombrePlato(),
+                .map(platoRestauranteModel -> new PlatosResponseDto(platoRestauranteModel.getId(), platoRestauranteModel.getNombrePlato(),
                         platoRestauranteModel.getPrecio(),
                         platoRestauranteModel.getDescripcionPlato(),
                         platoRestauranteModel.getUrlImagen(),
