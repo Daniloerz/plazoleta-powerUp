@@ -30,18 +30,21 @@ public class PlatosRestController {
             @ApiResponse(responseCode = "409", description = "Dish already exists", content = @Content),
             @ApiResponse(responseCode = "200", description = "Dish updated correctly", content = @Content),
     })
-    @PostMapping("/")
-    public ResponseEntity<Void> createPlato(@RequestBody PlatosRequestDto platosRequestDto) {
+    @PostMapping("/{idPropietario}")
+    public ResponseEntity<Void> createPlato(@RequestBody PlatosRequestDto platosRequestDto,
+                                            @PathVariable Integer idPropietario) {
         try {
-            platosHandler.savePlatos(platosRequestDto);
+            platosHandler.savePlatos(platosRequestDto, idPropietario);
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
     @PatchMapping("/price-description/{id}")
-    public ResponseEntity<Void> updateDishPriceDescription(@PathVariable Integer id, @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
+    public ResponseEntity<Void> updateDishPriceDescription(@PathVariable Integer id,
+                                                           @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
 
         try {
             platosRequestPatchDto.setId(id);

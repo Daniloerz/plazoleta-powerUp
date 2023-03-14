@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PlatoRestauranteModel {
+    private Integer id;
     private String nombrePlato;
     private String nombreCategoria;
     private Integer precio;

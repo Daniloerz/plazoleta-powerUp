@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PlatosResponseDto {
 
+    private Integer id;
     private String nombrePlato;
     private Integer precio;
     private String descripcionPlato;

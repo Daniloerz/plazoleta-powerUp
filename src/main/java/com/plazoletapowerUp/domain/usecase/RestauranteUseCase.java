@@ -7,6 +7,7 @@ import com.plazoletapowerUp.domain.model.RestauranteModel;
 import com.plazoletapowerUp.domain.model.RestaurantePageable;
 import com.plazoletapowerUp.domain.responseDtoModel.UsuarioResponseDtoModel;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
+import com.plazoletapowerUp.infrastructure.enums.RoleEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +80,7 @@ public class RestauranteUseCase implements IRestauranteServicePort {
 
     private void validatePropietarioRole(Integer idUsuario){
         final UsuarioResponseDtoModel usuarioById = usuarioClientPort.findUsuarioById(idUsuario);
-        if(!usuarioById.getRole().getNombre().equalsIgnoreCase("propietario")){
+        if(!usuarioById.getRole().getNombre().equalsIgnoreCase(RoleEnum.PROPIETARIO.getDbName())){
             log.error("Role invalido {}", usuarioById.getRole().getNombre());
             throw new ValidationException("Role no valido para crear restaurante");
         }

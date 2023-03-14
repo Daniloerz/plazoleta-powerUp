@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RestauranteEmpleadoModel {
+    private Integer id;
     private Integer idRestaurante;
-    private Integer idPersona;
-    private String field;
+    private Integer idUsuario;
 }

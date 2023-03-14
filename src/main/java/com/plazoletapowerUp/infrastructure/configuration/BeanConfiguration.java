@@ -2,24 +2,21 @@ package com.plazoletapowerUp.infrastructure.configuration;
 
 import com.plazoletapowerUp.domain.api.IPedidosServicePort;
 import com.plazoletapowerUp.domain.api.IPlatosServicePort;
+import com.plazoletapowerUp.domain.api.IRestauranteEmpleadoServicePort;
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
 import com.plazoletapowerUp.domain.client.IUsuarioClientPort;
-import com.plazoletapowerUp.domain.spi.ICategoriaPersistencePort;
-import com.plazoletapowerUp.domain.spi.IPedidosPersistencePort;
-import com.plazoletapowerUp.domain.spi.IPlatosPersistencePort;
-import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
+import com.plazoletapowerUp.domain.spi.*;
 import com.plazoletapowerUp.domain.usecase.PedidosUseCase;
 import com.plazoletapowerUp.domain.usecase.PlatosUseCase;
+import com.plazoletapowerUp.domain.usecase.RestauranteEmpleadoUseCase;
 import com.plazoletapowerUp.domain.usecase.RestauranteUseCase;
 import com.plazoletapowerUp.infrastructure.out.feing.IUsuarioRestClient;
 import com.plazoletapowerUp.infrastructure.out.feing.adapter.UsuarioClientAdapter;
 import com.plazoletapowerUp.infrastructure.out.feing.mapper.IUsuarioResponseMapper;
-import com.plazoletapowerUp.infrastructure.out.jpa.adapter.CategoriaJpaAdapter;
-import com.plazoletapowerUp.infrastructure.out.jpa.adapter.PedidosJpaAdapter;
-import com.plazoletapowerUp.infrastructure.out.jpa.adapter.PlatosJpaAdapter;
-import com.plazoletapowerUp.infrastructure.out.jpa.adapter.RestauranteJpaAdapter;
+import com.plazoletapowerUp.infrastructure.out.jpa.adapter.*;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.ICategoriaEntityMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IPlatosEntityMapper;
+import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEmpleadoEntityMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEntityMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +36,8 @@ public class BeanConfiguration {
     private final IPedidosPlatosRepository pedidosPlatosRepository;
     private final IUsuarioRestClient usuarioRestClient;
     private final IUsuarioResponseMapper usuarioResponseMapper;
+    private final IRestauranteEmpleadoRepository restauranteEmpleadoRepository;
+    private final IRestauranteEmpleadoEntityMapper restauranteEmpleadoEntityMapper;
 
     @Bean
     public IRestaurantePersistencePort restaurantePersistencePort() {
@@ -67,7 +66,9 @@ public class BeanConfiguration {
 
     @Bean
     public IPlatosServicePort platosServicePort() {
-        return new PlatosUseCase(platosPersistencePort(), categoriaPersistencePort(), restaurantePersistencePort());
+        return new PlatosUseCase(platosPersistencePort(),
+                categoriaPersistencePort(),
+                restaurantePersistencePort(), usuarioClientPort());
     }
 
     @Bean
@@ -77,8 +78,20 @@ public class BeanConfiguration {
 
     @Bean
     public IPedidosServicePort pedidosServicePort() {
-
         return new PedidosUseCase(pedidosPersistencePort());
+    }
+
+    @Bean
+    public IRestauranteEmpleadoPersistencePort restauranteEmpleadoPersistencePort() {
+        return new RestauranteEmpleadoJpaAdapter(restauranteEmpleadoEntityMapper,
+                restauranteEmpleadoRepository);
+    }
+
+    @Bean
+    public IRestauranteEmpleadoServicePort restauranteEmpleadoServicePort() {
+
+        return new RestauranteEmpleadoUseCase(restauranteEmpleadoPersistencePort(),
+                usuarioClientPort(), restaurantePersistencePort());
     }
 
 }

@@ -25,7 +25,8 @@ public class RestauranteHandler implements IRestauranteHandler {
     @Override
     public RestaurantePageResponseDto findAllRestaurantes(Integer page) {
         RestaurantePageable restaurantePageable = restauranteServicePort.findAllRestaurantesSP(page);
-        RestaurantePageResponseDto restaurantePageResponseDto = new RestaurantePageResponseDto(page, restaurantePageable.getPageSize(),
+        RestaurantePageResponseDto restaurantePageResponseDto =
+                new RestaurantePageResponseDto(page, restaurantePageable.getPageSize(),
                 restauranteRequestMapper.toRestauranteResponseDtoList(restaurantePageable.getRestauranteModelList()),
                 restaurantePageable.getPagesAmount());
         return restaurantePageResponseDto;

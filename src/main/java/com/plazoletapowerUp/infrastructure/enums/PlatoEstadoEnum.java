@@ -1,7 +1,9 @@
 package com.plazoletapowerUp.infrastructure.enums;
 
 public enum PlatoEstadoEnum {
-    PENDIENTE("pendiente"), EN_PREPARACION("en preparacion"), ENTREGADO("entregado");
+    PENDIENTE("pendiente"),
+    EN_PREPARACION("en preparacion"),
+    ENTREGADO("entregado");
 
    private String dbValue;
 

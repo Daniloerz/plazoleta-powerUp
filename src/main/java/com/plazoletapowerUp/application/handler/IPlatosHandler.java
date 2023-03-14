@@ -6,7 +6,7 @@ import com.plazoletapowerUp.application.dto.response.PlatosPageResponseDto;
 import com.plazoletapowerUp.domain.model.PlatosModel;
 
 public interface IPlatosHandler {
-    void savePlatos(PlatosRequestDto platosRequestDto);
+    void savePlatos(PlatosRequestDto platosRequestDto, Integer idPropietario);
     PlatosModel updatePlatoByPriceDescription(PlatosRequestPatchDto platosRequestPatchDto);
     PlatosModel updatePlatoActive(Integer id, Boolean active);
     PlatosPageResponseDto findPlatosByIdRestaurante(Integer id, Integer initPage, Integer numElementsPage);

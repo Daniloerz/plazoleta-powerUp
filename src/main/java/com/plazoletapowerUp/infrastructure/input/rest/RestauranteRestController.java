@@ -28,7 +28,7 @@ public class RestauranteRestController {
             @ApiResponse(responseCode = "201", description = "Restaurant created", content = @Content),
             @ApiResponse(responseCode = "409", description = "Restaurant already exists", content = @Content)
     })
-    @PostMapping("/create-restaurante")
+    @PostMapping("/")
     public ResponseEntity<Void> createRestaurante(@RequestBody RestauranteRequestDto restauranteRequestDto) {
         try {
             restauranteHandler.saveRestaurante(restauranteRequestDto);
@@ -39,7 +39,7 @@ public class RestauranteRestController {
         }
     }
 
-    @GetMapping("/get-restaurant")
+    @GetMapping
     public ResponseEntity<RestaurantePageResponseDto> findAllRestaurantes(@RequestParam @Min(1) Integer page){
        if (restauranteHandler.findAllRestaurantes(page) != null){
            return ResponseEntity.ok(restauranteHandler.findAllRestaurantes(page));
