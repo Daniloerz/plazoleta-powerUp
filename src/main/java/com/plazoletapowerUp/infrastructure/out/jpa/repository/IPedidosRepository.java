@@ -11,4 +11,5 @@ import java.util.List;
 
 public interface IPedidosRepository extends JpaRepository<PedidoEntity, Integer> {
     List<PedidoEntity> findByIdCliente(Integer idCliente);
+    Page<PedidoEntity> getByIdEmpleadoAndIdRestauranteAndEstado (Integer idEmpleado, Integer idRestaurante, String estado, Pageable page);
 }

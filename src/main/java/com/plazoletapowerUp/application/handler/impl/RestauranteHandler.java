@@ -5,7 +5,7 @@ import com.plazoletapowerUp.application.dto.response.RestaurantePageResponseDto;
 import com.plazoletapowerUp.application.handler.IRestauranteHandler;
 import com.plazoletapowerUp.application.mapper.IRestauranteRequestMapper;
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
-import com.plazoletapowerUp.domain.model.RestaurantePageable;
+import com.plazoletapowerUp.domain.model.RestaurantePageableModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,11 +25,11 @@ public class RestauranteHandler implements IRestauranteHandler {
 
     @Override
     public RestaurantePageResponseDto findAllRestaurantes(Integer page) {
-        RestaurantePageable restaurantePageable = restauranteServicePort.findAllRestaurantesSP(page);
+        RestaurantePageableModel restaurantePageableModel = restauranteServicePort.findAllRestaurantesSP(page);
         RestaurantePageResponseDto restaurantePageResponseDto =
-                new RestaurantePageResponseDto(page, restaurantePageable.getPageSize(),
-                restauranteRequestMapper.toRestauranteResponseDtoList(restaurantePageable.getRestauranteModelList()),
-                restaurantePageable.getPagesAmount());
+                new RestaurantePageResponseDto(page, restaurantePageableModel.getPageSize(),
+                restauranteRequestMapper.toRestauranteResponseDtoList(restaurantePageableModel.getRestauranteModelList()),
+                restaurantePageableModel.getPagesAmount());
         return restaurantePageResponseDto;
     }
 }

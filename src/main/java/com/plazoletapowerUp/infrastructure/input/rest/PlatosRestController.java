@@ -69,8 +69,10 @@ public class PlatosRestController {
 
     @GetMapping("/{id_restaurante}")
     public ResponseEntity<PlatosPageResponseDto> findAllRestaurantes(@PathVariable Integer id_restaurante,
-                                                                     @RequestParam @Min(1) Integer initPage,
-                                                                     @RequestParam @Min(1) Integer numElementsPage){
+                                                                     @RequestParam (defaultValue = "1")
+                                                                     @Min(1) Integer initPage,
+                                                                     @RequestParam (defaultValue = "10")
+                                                                         @Min(1) Integer numElementsPage){
         final PlatosPageResponseDto platosByIdRestaurante = platosHandler.findPlatosByIdRestaurante(id_restaurante, initPage, numElementsPage);
         if (platosByIdRestaurante != null){
             return ResponseEntity.ok(platosByIdRestaurante);

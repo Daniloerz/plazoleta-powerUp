@@ -4,7 +4,7 @@ import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
 import com.plazoletapowerUp.domain.client.IUsuarioClientPort;
 import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
-import com.plazoletapowerUp.domain.model.RestaurantePageable;
+import com.plazoletapowerUp.domain.model.RestaurantePageableModel;
 import com.plazoletapowerUp.domain.responseDtoModel.UsuarioResponseDtoModel;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import com.plazoletapowerUp.infrastructure.enums.RoleEnum;
@@ -33,7 +33,7 @@ public class RestauranteUseCase implements IRestauranteServicePort {
     }
 
     @Override
-    public RestaurantePageable findAllRestaurantesSP(Integer page) {
+    public RestaurantePageableModel findAllRestaurantesSP(Integer page) {
         return  restaurantePersistencePort.findAllRestaurantesPP(page);
 
     }

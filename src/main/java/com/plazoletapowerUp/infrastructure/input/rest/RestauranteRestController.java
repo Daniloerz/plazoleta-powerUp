@@ -41,8 +41,9 @@ public class RestauranteRestController {
 
     @GetMapping
     public ResponseEntity<RestaurantePageResponseDto> findAllRestaurantes(@RequestParam @Min(1) Integer page){
-       if (restauranteHandler.findAllRestaurantes(page) != null){
-           return ResponseEntity.ok(restauranteHandler.findAllRestaurantes(page));
+        RestaurantePageResponseDto restaurantePageResponseDto = restauranteHandler.findAllRestaurantes(page);
+       if (restaurantePageResponseDto != null){
+           return ResponseEntity.ok(restaurantePageResponseDto);
        } else {
            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
        }
