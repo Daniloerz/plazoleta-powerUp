@@ -1,14 +1,16 @@
 package com.plazoletapowerUp.infrastructure.out.jpa.mapper;
 
 import com.plazoletapowerUp.domain.model.PedidoModel;
-import com.plazoletapowerUp.infrastructure.out.jpa.entity.PedidosEntity;
+import com.plazoletapowerUp.infrastructure.out.jpa.entity.PedidoEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
+
+import java.util.List;
 
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IPedidosEntityMapper {
-    PedidosEntity toEntity(PedidoModel pedidoModel);
-
+    PedidoEntity toEntity(PedidoModel pedidoModel);
+    List<PedidoModel> toPedidosModel(List<PedidoEntity> pedidoEntityList);
 }

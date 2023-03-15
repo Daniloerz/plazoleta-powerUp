@@ -24,7 +24,7 @@ public class PedidosHandler implements IPedidosHandler {
     @Override
     public void savePedido(PedidoRequestDto pedidoRequestDto) {
         PedidoModel pedidoModel = new PedidoModel();
-        pedidoModel.setIdChef(pedidoRequestDto.getIdChef());
+        pedidoModel.setIdEmpleado(pedidoRequestDto.getIdEmpleado());
         pedidoModel.setIdCliente(pedidoRequestDto.getIdCliente());
         pedidoModel.setIdRestaurante(pedidoRequestDto.getIdRestaurante());
 

@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PlatosEntity {
+public class PlatoEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

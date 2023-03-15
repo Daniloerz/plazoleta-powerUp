@@ -8,7 +8,7 @@ public interface IPlatosServicePort {
     void savePlatosSP(PlatosModel platosModel, Integer idPropietario);
 
     PlatosModel updatePlatoByPriceDescriptionSP(PlatosModel platosModel);
-    PlatosModel updatePlatoActiveSP(Integer id, Boolean isActive);
+    PlatosModel updatePlatoActiveSP(Integer idPropietario,Integer idPlato, Boolean isActive);
     PlatosRestaurantePageableModel findPlatosByRestaurante(Integer id, Integer initPage, Integer numElementsPage);
 
 }

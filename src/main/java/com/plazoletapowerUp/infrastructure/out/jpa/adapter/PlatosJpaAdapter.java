@@ -5,7 +5,7 @@ import com.plazoletapowerUp.domain.model.PlatosModel;
 import com.plazoletapowerUp.domain.model.PlatosRestaurantePageableModel;
 import com.plazoletapowerUp.domain.spi.IPlatosPersistencePort;
 import com.plazoletapowerUp.infrastructure.exception.NoDataFoundException;
-import com.plazoletapowerUp.infrastructure.out.jpa.entity.PlatosEntity;
+import com.plazoletapowerUp.infrastructure.out.jpa.entity.PlatoEntity;
 import com.plazoletapowerUp.infrastructure.out.jpa.entity.custom.IPlatoRestaurante;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IPlatosEntityMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.repository.IPlatosRepository;
@@ -25,16 +25,16 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
 
     @Override
     public PlatosModel savePlatoPP(PlatosModel platosModel) {
-        PlatosEntity platosEntity = platosRepository.save(platosEntityMapper.toEntity(platosModel));
-        return platosEntityMapper.toPlatosModel(platosEntity);
+        PlatoEntity platoEntity = platosRepository.save(platosEntityMapper.toEntity(platosModel));
+        return platosEntityMapper.toPlatosModel(platoEntity);
     }
 
     @Override
     public PlatosModel findPlatoById(PlatosModel platosModel) {
-        Optional<PlatosEntity> platosEntityOptional = platosRepository.findById(platosModel.getId());
+        Optional<PlatoEntity> platosEntityOptional = platosRepository.findById(platosModel.getId());
         if (platosEntityOptional.isPresent()){
-            PlatosEntity platosEntity = platosEntityOptional.get();
-            return platosEntityMapper.toPlatosModel(platosEntity);
+            PlatoEntity platoEntity = platosEntityOptional.get();
+            return platosEntityMapper.toPlatosModel(platoEntity);
         } else {
             throw new NoDataFoundException();
         }
@@ -42,10 +42,10 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
 
     @Override
     public PlatosModel findPlatoById(Integer id) {
-        Optional<PlatosEntity> platosEntityOptional = platosRepository.findById(id);
+        Optional<PlatoEntity> platosEntityOptional = platosRepository.findById(id);
         if (platosEntityOptional.isPresent()){
-            PlatosEntity platosEntity = platosEntityOptional.get();
-            return platosEntityMapper.toPlatosModel(platosEntity);
+            PlatoEntity platoEntity = platosEntityOptional.get();
+            return platosEntityMapper.toPlatosModel(platoEntity);
         } else {
             throw new NoDataFoundException();
         }

@@ -8,7 +8,7 @@ import com.plazoletapowerUp.domain.model.PlatosModel;
 public interface IPlatosHandler {
     void savePlatos(PlatosRequestDto platosRequestDto, Integer idPropietario);
     PlatosModel updatePlatoByPriceDescription(PlatosRequestPatchDto platosRequestPatchDto);
-    PlatosModel updatePlatoActive(Integer id, Boolean active);
+    PlatosModel updatePlatoActive(Integer idPropietario,Integer idPlato, Boolean active);
     PlatosPageResponseDto findPlatosByIdRestaurante(Integer id, Integer initPage, Integer numElementsPage);
 
 }

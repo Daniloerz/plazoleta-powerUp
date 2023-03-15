@@ -14,10 +14,7 @@ import com.plazoletapowerUp.infrastructure.out.feing.IUsuarioRestClient;
 import com.plazoletapowerUp.infrastructure.out.feing.adapter.UsuarioClientAdapter;
 import com.plazoletapowerUp.infrastructure.out.feing.mapper.IUsuarioResponseMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.adapter.*;
-import com.plazoletapowerUp.infrastructure.out.jpa.mapper.ICategoriaEntityMapper;
-import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IPlatosEntityMapper;
-import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEmpleadoEntityMapper;
-import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEntityMapper;
+import com.plazoletapowerUp.infrastructure.out.jpa.mapper.*;
 import com.plazoletapowerUp.infrastructure.out.jpa.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +35,7 @@ public class BeanConfiguration {
     private final IUsuarioResponseMapper usuarioResponseMapper;
     private final IRestauranteEmpleadoRepository restauranteEmpleadoRepository;
     private final IRestauranteEmpleadoEntityMapper restauranteEmpleadoEntityMapper;
+    private final IPedidosEntityMapper pedidosEntityMapper;
 
     @Bean
     public IRestaurantePersistencePort restaurantePersistencePort() {
@@ -73,12 +71,13 @@ public class BeanConfiguration {
 
     @Bean
     public IPedidosPersistencePort pedidosPersistencePort() {
-        return new PedidosJpaAdapter(pedidosRepository, pedidosPlatosRepository, platosRepository);
+        return new PedidosJpaAdapter(pedidosRepository, pedidosPlatosRepository, platosRepository, pedidosEntityMapper);
     }
 
     @Bean
     public IPedidosServicePort pedidosServicePort() {
-        return new PedidosUseCase(pedidosPersistencePort());
+
+        return new PedidosUseCase(pedidosPersistencePort(), restaurantePersistencePort(), usuarioClientPort());
     }
 
     @Bean

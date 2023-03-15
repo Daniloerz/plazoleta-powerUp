@@ -55,10 +55,12 @@ public class PlatosRestController {
         }
     }
 
-    @PatchMapping("/active/{id}")
-    public ResponseEntity<Void> updateDishActive(@PathVariable Integer id, @RequestParam Boolean isActive){
+    @PatchMapping("/active/{idPropietario}/{idPlato}")
+    public ResponseEntity<Void> updateDishActive(@PathVariable Integer idPropietario,
+                                                 @PathVariable Integer idPlato,
+                                                 @RequestParam Boolean isActive){
         try {
-            platosHandler.updatePlatoActive(id, isActive);
+            platosHandler.updatePlatoActive(idPropietario, idPlato, isActive);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
