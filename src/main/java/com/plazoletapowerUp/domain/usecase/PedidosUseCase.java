@@ -5,6 +5,7 @@ import com.plazoletapowerUp.domain.client.IUsuarioClientPort;
 import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.PedidoModel;
 import com.plazoletapowerUp.domain.model.PedidoPlatosModel;
+import com.plazoletapowerUp.domain.model.PedidosPageableModel;
 import com.plazoletapowerUp.domain.model.RestauranteModel;
 import com.plazoletapowerUp.domain.responseDtoModel.UsuarioResponseDtoModel;
 import com.plazoletapowerUp.domain.spi.IPedidosPersistencePort;
@@ -36,6 +37,16 @@ public class PedidosUseCase implements IPedidosServicePort {
     public void savePedidoSP(PedidoModel pedidoModel, List<PedidoPlatosModel> pedidoPlatosModelList) {
        this.validatePedido(pedidoModel);
         pedidosPersistencePort.savePedidosPP(pedidoModel, pedidoPlatosModelList);
+    }
+
+    @Override
+    public PedidosPageableModel findPedidosByEstado(Integer idEmpleado,
+                                                    Integer idRestaurante,
+                                                    String estado,
+                                                    Integer page,
+                                                    Integer numElemPage) {
+        return pedidosPersistencePort.findPedidoByEstado
+                (idEmpleado, idRestaurante, estado, page, numElemPage);
     }
 
     public void validatePedido(PedidoModel pedidoModel){

@@ -11,7 +11,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RestaurantePageable {
+public class RestaurantePageableModel {
 
     private Integer pagesAmount;
     private Integer pageSize;

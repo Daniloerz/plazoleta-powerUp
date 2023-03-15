@@ -1,7 +1,7 @@
 package com.plazoletapowerUp.infrastructure.out.jpa.adapter;
 
 import com.plazoletapowerUp.domain.model.RestauranteModel;
-import com.plazoletapowerUp.domain.model.RestaurantePageable;
+import com.plazoletapowerUp.domain.model.RestaurantePageableModel;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import com.plazoletapowerUp.infrastructure.exception.NoDataFoundException;
 import com.plazoletapowerUp.infrastructure.out.jpa.entity.RestauranteEntity;
@@ -40,7 +40,7 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
     }
 
     @Override
-    public RestaurantePageable findAllRestaurantesPP(Integer page) {
+    public RestaurantePageableModel findAllRestaurantesPP(Integer page) {
         Integer initPage = (page-1);
         Integer pageSize = 10;
         Pageable pageable = PageRequest.of(initPage,pageSize, Sort.by("nombre"));
@@ -49,10 +49,10 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
         List<RestauranteEntity> restauranteEntityList =restauranteEntityPage.getContent();
         List<RestauranteModel> restauranteModelList = restauranteEntityMapper.toRestauranteModelList(restauranteEntityList);
 
-        RestaurantePageable restaurantePageable = new RestaurantePageable(pagesAmount,
+        RestaurantePageableModel restaurantePageableModel = new RestaurantePageableModel(pagesAmount,
                 restauranteModelList.size(),
                 restauranteModelList);
-        return  restaurantePageable;
+        return restaurantePageableModel;
     }
 
 }

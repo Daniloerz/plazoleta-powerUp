@@ -2,11 +2,11 @@ package com.plazoletapowerUp.domain.spi;
 
 
 import com.plazoletapowerUp.domain.model.RestauranteModel;
-import com.plazoletapowerUp.domain.model.RestaurantePageable;
+import com.plazoletapowerUp.domain.model.RestaurantePageableModel;
 
 public interface IRestaurantePersistencePort {
     RestauranteModel saveRestaurante(RestauranteModel restauranteModel);
     RestauranteModel findByIdPP(Integer id);
-    RestaurantePageable findAllRestaurantesPP(Integer page);
+    RestaurantePageableModel findAllRestaurantesPP(Integer page);
 
 }
