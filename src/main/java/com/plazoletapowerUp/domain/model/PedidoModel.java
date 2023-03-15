@@ -16,6 +16,6 @@ public class PedidoModel {
     private Integer idCliente;
     private Date fecha;
     private String estado;
-    private Integer idChef;
+    private Integer idEmpleado;
     private Integer idRestaurante;
 }

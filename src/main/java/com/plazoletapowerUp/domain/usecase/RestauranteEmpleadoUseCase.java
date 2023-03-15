@@ -47,7 +47,7 @@ public class RestauranteEmpleadoUseCase implements IRestauranteEmpleadoServicePo
             throw new ValidationException("Id de usuario invalido");
         }
 
-        if(!usuarioById.getRole().getNombre().equalsIgnoreCase(RoleEnum.EMPLEADO.getDbName())){
+        if((!usuarioById.getRole().getNombre().equalsIgnoreCase(RoleEnum.EMPLEADO.getDbName()))){
             log.error("Role invalido {}", usuarioById.getRole().getNombre());
             throw new ValidationException("Role no valido para guardar usuario");
         }

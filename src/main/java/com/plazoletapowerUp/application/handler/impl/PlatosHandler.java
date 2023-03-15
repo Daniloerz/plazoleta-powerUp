@@ -37,8 +37,8 @@ public class PlatosHandler implements IPlatosHandler {
     }
 
     @Override
-    public PlatosModel updatePlatoActive(Integer id, Boolean isActive) {
-        return platosServicePort.updatePlatoActiveSP(id, isActive);
+    public PlatosModel updatePlatoActive(Integer idPropietario,Integer idPlato, Boolean isActive) {
+        return platosServicePort.updatePlatoActiveSP(idPropietario, idPlato, isActive);
     }
 
     @Override

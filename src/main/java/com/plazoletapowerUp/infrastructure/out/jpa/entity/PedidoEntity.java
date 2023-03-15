@@ -15,7 +15,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PedidosEntity {
+public class PedidoEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -24,6 +24,6 @@ public class PedidosEntity {
     private Integer idCliente;
     private Date fecha;
     private String estado;
-    private Integer idChef;
+    private Integer idEmpleado;
     private Integer idRestaurante;
 }

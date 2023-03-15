@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface IPedidosPersistencePort {
     void savePedidosPP(PedidoModel pedidoModel, List<PedidoPlatosModel> pedidoPlatosModelList);
+    List<PedidoModel> findPedidosByIdClientePP(Integer idCliente);
 }

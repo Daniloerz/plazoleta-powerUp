@@ -24,5 +24,4 @@ public class RestauranteEntity {
     private String telefono;
     private String urlLogo;
     private Integer idPropietario;
-
 }

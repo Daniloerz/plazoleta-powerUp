@@ -12,7 +12,7 @@ import java.util.List;
 public class PedidoRequestDto {
 
     private Integer idCliente;
-    private Integer idChef;
+    private Integer idEmpleado;
     private Integer idRestaurante;
     private List<PedidoPlatoRequestDto> pedidoPlatoRequestDtoList;
 }

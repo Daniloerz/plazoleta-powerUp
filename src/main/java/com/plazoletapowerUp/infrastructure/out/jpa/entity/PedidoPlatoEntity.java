@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
-public class PedidoPlatosEntity {
+public class PedidoPlatoEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
