@@ -2,8 +2,6 @@ package com.plazoletapowerUp.application.handler.impl;
 
 import com.plazoletapowerUp.application.dto.request.PedidoRequestDto;
 import com.plazoletapowerUp.application.dto.response.PedidoPageResponseDto;
-import com.plazoletapowerUp.application.dto.response.PedidoResponseDto;
-import com.plazoletapowerUp.application.dto.response.PlatosResponseDto;
 import com.plazoletapowerUp.application.handler.IPedidosHandler;
 import com.plazoletapowerUp.application.mapper.IPedidoRequestMapper;
 import com.plazoletapowerUp.domain.api.IPedidosServicePort;
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +26,6 @@ public class PedidosHandler implements IPedidosHandler {
     @Override
     public void savePedido(PedidoRequestDto pedidoRequestDto) {
         PedidoModel pedidoModel = new PedidoModel();
-        pedidoModel.setIdEmpleado(pedidoRequestDto.getIdEmpleado());
         pedidoModel.setIdCliente(pedidoRequestDto.getIdCliente());
         pedidoModel.setIdRestaurante(pedidoRequestDto.getIdRestaurante());
 
@@ -52,5 +47,15 @@ public class PedidosHandler implements IPedidosHandler {
                 pedidosPageableModel
                         .getPedidoModelList().get(0).getIdRestaurante(),
                 pedidoRequestMapper.toPedidoResponseDto(pedidosPageableModel.getPedidoModelList()));
+    }
+
+    @Override
+    public void updateIdEmpleado(Integer idEmpleado, Integer idPedido, String estado) {
+        pedidosServicePort.updateEmpleadoAndEstado(idEmpleado, idPedido, estado);
+    }
+
+    @Override
+    public void updatePedidoToReady(Integer idPedido) {
+        pedidosServicePort.updatePedidoToReady(idPedido);
     }
 }

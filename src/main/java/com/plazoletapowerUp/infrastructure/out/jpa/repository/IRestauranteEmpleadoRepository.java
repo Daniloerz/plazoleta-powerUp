@@ -4,4 +4,5 @@ import com.plazoletapowerUp.infrastructure.out.jpa.entity.RestauranteEmpleadoEnt
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IRestauranteEmpleadoRepository extends JpaRepository<RestauranteEmpleadoEntity, Integer> {
+    RestauranteEmpleadoEntity getByIdUsuario(Integer idEmpleado);
 }

@@ -3,6 +3,7 @@ package com.plazoletapowerUp.infrastructure.input.rest;
 import com.plazoletapowerUp.application.dto.request.PedidoRequestDto;
 import com.plazoletapowerUp.application.dto.response.PedidoPageResponseDto;
 import com.plazoletapowerUp.application.handler.IPedidosHandler;
+import com.plazoletapowerUp.infrastructure.enums.PedidoEstadoEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,7 +15,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
-import javax.ws.rs.Path;
 
 @RestController
 @RequestMapping("/api/v1/pedidos")
@@ -39,9 +39,9 @@ public class PedidosRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/{idEmpleado}/{idRestaurante}")
-    public ResponseEntity<PedidoPageResponseDto> getPedidosByEstado (@PathVariable Integer idEmpleado,
-                                                                     @PathVariable Integer idRestaurante,
+    @GetMapping("/{idRestaurante}")
+    public ResponseEntity<PedidoPageResponseDto> getPedidosByEstado (@PathVariable Integer idRestaurante,
+                                                                     @RequestParam (name = "id") Integer idEmpleado,
                                                                      @RequestParam(defaultValue = "pendiente")
                                                                                  String estado,
                                                                      @RequestParam (defaultValue = "1")
@@ -56,4 +56,28 @@ public class PedidosRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+
+    @PatchMapping("/preparar-pedido/{idPedido}")
+    public ResponseEntity<Void> updateEmpleadoAndEstado (@PathVariable Integer idPedido,
+                                                         @RequestParam Integer idChef){
+        try {
+            pedidosHandler.updateIdEmpleado(idChef, idPedido, PedidoEstadoEnum.EN_PREPARACION.getDbValue());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/asignar-pedido-listo/{idPedido}")
+    public ResponseEntity<Void> updatePedidoToReady (@PathVariable Integer idPedido){
+        try {
+            pedidosHandler.updatePedidoToReady(idPedido);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

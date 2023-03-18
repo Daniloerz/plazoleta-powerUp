@@ -12,5 +12,6 @@ import java.util.List;
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
 public interface IPedidosEntityMapper {
     PedidoEntity toEntity(PedidoModel pedidoModel);
+    PedidoModel toModel(PedidoEntity pedidoEntity);
     List<PedidoModel> toPedidosModel(List<PedidoEntity> pedidoEntityList);
 }

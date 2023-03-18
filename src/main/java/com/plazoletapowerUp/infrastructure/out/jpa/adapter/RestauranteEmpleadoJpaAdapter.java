@@ -26,4 +26,10 @@ public class RestauranteEmpleadoJpaAdapter implements IRestauranteEmpleadoPersis
                         .toRestauranteEmpleadoEntity(restauranteEmpleadoModel);
         restauranteEmpleadoRepository.save(restauranteEmpleadoEntity);
     }
+
+    @Override
+    public RestauranteEmpleadoModel findEmpleadoById(Integer idEmpleado) {
+        return restauranteEmpleadoEntityMapper
+                .toRestauranteEmpleadoModel(restauranteEmpleadoRepository.getByIdUsuario(idEmpleado));
+    }
 }

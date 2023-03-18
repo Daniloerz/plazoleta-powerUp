@@ -4,14 +4,18 @@ import com.plazoletapowerUp.domain.api.IPedidosServicePort;
 import com.plazoletapowerUp.domain.api.IPlatosServicePort;
 import com.plazoletapowerUp.domain.api.IRestauranteEmpleadoServicePort;
 import com.plazoletapowerUp.domain.api.IRestauranteServicePort;
+import com.plazoletapowerUp.domain.client.ITwilioClientPort;
 import com.plazoletapowerUp.domain.client.IUsuarioClientPort;
 import com.plazoletapowerUp.domain.spi.*;
 import com.plazoletapowerUp.domain.usecase.PedidosUseCase;
 import com.plazoletapowerUp.domain.usecase.PlatosUseCase;
 import com.plazoletapowerUp.domain.usecase.RestauranteEmpleadoUseCase;
 import com.plazoletapowerUp.domain.usecase.RestauranteUseCase;
+import com.plazoletapowerUp.infrastructure.out.feing.ITwilioRestClient;
 import com.plazoletapowerUp.infrastructure.out.feing.IUsuarioRestClient;
+import com.plazoletapowerUp.infrastructure.out.feing.adapter.TwilioClientAdapter;
 import com.plazoletapowerUp.infrastructure.out.feing.adapter.UsuarioClientAdapter;
+import com.plazoletapowerUp.infrastructure.out.feing.mapper.IMessageRequestMapper;
 import com.plazoletapowerUp.infrastructure.out.feing.mapper.IUsuarioResponseMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.adapter.*;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.*;
@@ -36,6 +40,9 @@ public class BeanConfiguration {
     private final IRestauranteEmpleadoRepository restauranteEmpleadoRepository;
     private final IRestauranteEmpleadoEntityMapper restauranteEmpleadoEntityMapper;
     private final IPedidosEntityMapper pedidosEntityMapper;
+    private final ITwilioRestClient twilioRestClient;
+    private final IMessageRequestMapper messageRequestMapper;
+
 
     @Bean
     public IRestaurantePersistencePort restaurantePersistencePort() {
@@ -45,6 +52,11 @@ public class BeanConfiguration {
     @Bean
     public IUsuarioClientPort usuarioClientPort() {
         return new UsuarioClientAdapter(usuarioRestClient, usuarioResponseMapper);
+    }
+
+    @Bean
+    public ITwilioClientPort twilioClientPort() {
+        return new TwilioClientAdapter(twilioRestClient, messageRequestMapper);
     }
 
     @Bean
@@ -71,13 +83,16 @@ public class BeanConfiguration {
 
     @Bean
     public IPedidosPersistencePort pedidosPersistencePort() {
-        return new PedidosJpaAdapter(pedidosRepository, pedidosPlatosRepository, platosRepository, pedidosEntityMapper);
+        return new PedidosJpaAdapter(pedidosRepository,
+                pedidosPlatosRepository, platosRepository, pedidosEntityMapper);
     }
 
     @Bean
     public IPedidosServicePort pedidosServicePort() {
 
-        return new PedidosUseCase(pedidosPersistencePort(), restaurantePersistencePort(), usuarioClientPort());
+        return new PedidosUseCase(pedidosPersistencePort(),
+                restaurantePersistencePort(), restauranteEmpleadoPersistencePort(),
+                twilioClientPort(), usuarioClientPort());
     }
 
     @Bean
