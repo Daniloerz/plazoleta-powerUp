@@ -13,4 +13,6 @@ public interface IPedidosServicePort {
                                              String estado,
                                              Integer page,
                                              Integer numElemPage);
+    void updateEmpleadoAndEstado (Integer idEmpleado, Integer idPedido, String estado);
+    void updatePedidoToReady (Integer idPedido);
 }

@@ -5,4 +5,5 @@ import com.plazoletapowerUp.domain.model.RestauranteEmpleadoModel;
 public interface IRestauranteEmpleadoPersistencePort {
 
     void saveRestauranteEmpleado (RestauranteEmpleadoModel restauranteEmpleadoModel);
+    RestauranteEmpleadoModel findEmpleadoById (Integer idEmpleado);
 }

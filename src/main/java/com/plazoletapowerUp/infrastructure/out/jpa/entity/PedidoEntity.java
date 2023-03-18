@@ -26,4 +26,5 @@ public class PedidoEntity {
     private String estado;
     private Integer idEmpleado;
     private Integer idRestaurante;
+    private String codigoEntrega;
 }

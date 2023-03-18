@@ -18,4 +18,5 @@ public class PedidoModel {
     private String estado;
     private Integer idEmpleado;
     private Integer idRestaurante;
+    private String codigoEntrega;
 }

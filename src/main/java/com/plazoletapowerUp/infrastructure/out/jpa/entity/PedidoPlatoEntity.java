@@ -22,4 +22,5 @@ public class PedidoPlatoEntity {
     private Integer idPedido;
     private Integer idPlato;
     private Integer cantidad;
+
 }
