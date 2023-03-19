@@ -10,4 +10,5 @@ import java.util.List;
 public interface IPedidosRepository extends JpaRepository<PedidoEntity, Integer> {
     List<PedidoEntity> getByIdCliente(Integer idCliente);
     Page<PedidoEntity> getByIdRestauranteAndEstado(Integer idRestaurante, String estado, Pageable page);
+    PedidoEntity getByCodigoEntrega (String codigoEntrega);
 }

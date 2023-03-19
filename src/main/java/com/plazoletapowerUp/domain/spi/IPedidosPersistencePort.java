@@ -13,4 +13,5 @@ public interface IPedidosPersistencePort {
     PedidosPageableModel findPedidoByEstado
             (Integer idEmpleado, Integer idRestaurante, String estado, Integer page, Integer numElemPage);
     PedidoModel findPedidoById (Integer idPedido);
+    PedidoModel findPedidoByCodigoEntrega (String codigoEntrega);
 }

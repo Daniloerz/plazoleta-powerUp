@@ -80,4 +80,17 @@ public class PedidosRestController {
         }
     }
 
+    @PatchMapping("/entregar-pedido/{idPedido}/{idCliente}/{codigoEntrega}")
+    public ResponseEntity<Void> updatePedidoToDelivered (@PathVariable Integer idPedido,
+                                                         @PathVariable Integer idCliente,
+                                                         @PathVariable String codigoEntrega){
+        try {
+            pedidosHandler.updatePedidoToDelivered(idPedido, idCliente, codigoEntrega);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

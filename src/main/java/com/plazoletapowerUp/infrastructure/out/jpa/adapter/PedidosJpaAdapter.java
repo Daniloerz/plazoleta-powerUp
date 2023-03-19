@@ -85,4 +85,15 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
         return pedidosEntityMapper.toModel(pedidoEntity);
     }
 
+    @Override
+    public PedidoModel findPedidoByCodigoEntrega(String codigoEntrega) {
+        PedidoEntity pedidoEntity = pedidosRepository.getByCodigoEntrega(codigoEntrega);
+        if(pedidoEntity != null){
+            return pedidosEntityMapper.toModel(pedidoEntity);
+        } else{
+            throw new NoDataFoundException();
+        }
+    }
+
+
 }
