@@ -12,4 +12,5 @@ public interface IPedidosHandler {
     void updateIdEmpleado(Integer idEmpleado, Integer idPedido, String estado);
 
     void updatePedidoToReady(Integer idPedido);
+    void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega);
 }

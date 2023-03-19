@@ -58,4 +58,9 @@ public class PedidosHandler implements IPedidosHandler {
     public void updatePedidoToReady(Integer idPedido) {
         pedidosServicePort.updatePedidoToReady(idPedido);
     }
+
+    @Override
+    public void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega) {
+        pedidosServicePort.updatePedidoToDelivered(idPedido, idCliente, codigoEntrega);
+    }
 }

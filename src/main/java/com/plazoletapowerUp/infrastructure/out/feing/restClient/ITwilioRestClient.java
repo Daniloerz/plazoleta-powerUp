@@ -1,4 +1,4 @@
-package com.plazoletapowerUp.infrastructure.out.feing;
+package com.plazoletapowerUp.infrastructure.out.feing.restClient;
 
 import com.plazoletapowerUp.infrastructure.out.feing.dto.MessageRequestDto;
 import org.springframework.cloud.openfeign.FeignClient;

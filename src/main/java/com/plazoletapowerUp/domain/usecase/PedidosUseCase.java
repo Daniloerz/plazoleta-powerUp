@@ -80,12 +80,22 @@ public class PedidosUseCase implements IPedidosServicePort {
         this.sendMessage(pedidoById.getIdCliente(), pedidoById.getCodigoEntrega());
     }
 
-    public void validatePedido(PedidoModel pedidoModel){
-        this.validateRestaurante(pedidoModel);
-        this.validatePedidosCliente(pedidoModel);
+    @Override
+    public void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega) {
+        PedidoModel pedidoModel = pedidosPersistencePort.findPedidoById(idPedido);
+        this.validatePedidoDeCliente(pedidoModel.getIdCliente(), idCliente);
+        this.isPedidoListo(pedidoModel);
+        pedidosPersistencePort.findPedidoByCodigoEntrega(codigoEntrega);
+        pedidoModel.setEstado(PedidoEstadoEnum.ENTREGADO.getDbValue());
+        pedidosPersistencePort.savePedido(pedidoModel);
     }
 
-    public void validatePedidosCliente (PedidoModel pedidoModel){
+    public void validatePedido(PedidoModel pedidoModel){
+        this.validateRestaurante(pedidoModel);
+        this.validatePedidosEnProcesoCliente(pedidoModel);
+    }
+
+    public void validatePedidosEnProcesoCliente(PedidoModel pedidoModel){
 
         List<PedidoModel> pedidoModelList = pedidosPersistencePort
                 .findPedidosByIdClientePP(pedidoModel.getIdCliente());
@@ -161,6 +171,20 @@ public class PedidosUseCase implements IPedidosServicePort {
 
     }
 
+    private void validatePedidoDeCliente (Integer idClientePedido, Integer idCliente){
+        if(idClientePedido != idCliente){
+            log.error("El cliente no se corresponde con el pedido");
+            throw new ValidationException("El cliente no se corresponde con el pedido");
+        }
+    }
+
+    private void isPedidoListo (PedidoModel pedidoModel){
+        if(!pedidoModel.getEstado().equals(PedidoEstadoEnum.LISTO.getDbValue())){
+            log.error("El estado del pedido debe ser " + PedidoEstadoEnum.LISTO.getDbValue().toUpperCase());
+            throw new ValidationException("El estado del pedido debe ser "
+                    + PedidoEstadoEnum.LISTO.getDbValue().toUpperCase());
+        }
+    }
 
 
 }
