@@ -4,7 +4,8 @@ public enum PedidoEstadoEnum {
     PENDIENTE("pendiente"),
     EN_PREPARACION("en preparacion"),
     LISTO("listo"),
-    ENTREGADO("entregado");
+    ENTREGADO("entregado"),
+    CANCELADO("cancelado");
 
    private String dbValue;
 

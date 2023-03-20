@@ -93,4 +93,15 @@ public class PedidosRestController {
         }
     }
 
+    @PatchMapping("/cancelar-pedido/{idPedido}")
+    public ResponseEntity<Void> cancelarPedido (@PathVariable Integer idPedido){
+        try {
+            pedidosHandler.cancelarPedido(idPedido);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }

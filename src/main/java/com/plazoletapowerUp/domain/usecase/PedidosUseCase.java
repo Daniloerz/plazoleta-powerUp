@@ -90,6 +90,19 @@ public class PedidosUseCase implements IPedidosServicePort {
         pedidosPersistencePort.savePedido(pedidoModel);
     }
 
+    @Override
+    public void cancelarPedido(Integer idPedido) {
+        PedidoModel pedidoModel = pedidosPersistencePort.findPedidoById(idPedido);
+
+        if(!pedidoModel.getEstado().equals(PedidoEstadoEnum.PENDIENTE)){
+            log.error("Lo sentimos, tu pedido ya está en preparación y no puede cancelarse");
+            throw new ValidationException("Lo sentimos, tu pedido ya está en preparación y no puede cancelarse");
+        }
+        pedidoModel.setEstado(PedidoEstadoEnum.CANCELADO.getDbValue());
+        pedidosPersistencePort.savePedido(pedidoModel);
+
+    }
+
     public void validatePedido(PedidoModel pedidoModel){
         this.validateRestaurante(pedidoModel);
         this.validatePedidosEnProcesoCliente(pedidoModel);
