@@ -13,4 +13,5 @@ public interface IPedidosHandler {
 
     void updatePedidoToReady(Integer idPedido);
     void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega);
+    void cancelarPedido(Integer idPedido);
 }
