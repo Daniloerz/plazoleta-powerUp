@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlatosRequestPatchDto {
+public class PlatosRequestPriceDto {
     @JsonIgnore
     private Integer id;
     private Integer precio;
-    private String descripcion;
+
 }
