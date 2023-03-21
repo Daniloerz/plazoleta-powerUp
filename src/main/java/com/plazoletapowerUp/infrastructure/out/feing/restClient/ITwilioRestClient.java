@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface ITwilioRestClient {
 
     @PostMapping("/twilio/send-message")
-    void sendMessage (MessageRequestDto messageRequestDto);
+    Boolean sendMessage (MessageRequestDto messageRequestDto);
 }

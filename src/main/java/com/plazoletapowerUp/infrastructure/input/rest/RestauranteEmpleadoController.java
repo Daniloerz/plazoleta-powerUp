@@ -23,23 +23,14 @@ public class RestauranteEmpleadoController {
 
     @Operation(summary = "Add a new restaurant employee")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Restaurant employee created", content = @Content),
-            @ApiResponse(responseCode = "409", description = "Restaurant employee already exists", content = @Content),
-            @ApiResponse(responseCode = "200", description = "Restaurant employee updated correctly",
-                    content = @Content),
+            @ApiResponse(responseCode = "201", description = "Restaurant employee created", content = @Content)
     })
-
 
     @PostMapping("/")
     public ResponseEntity<Void> restaurantEmployeeLink (
             @RequestBody RestauranteEmpleadoRequestDto restauranteEmpleadoRequestDto) {
-        try {
-            restauranteEmpleado.saveRestauranteEmpleado(restauranteEmpleadoRequestDto);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        restauranteEmpleado.saveRestauranteEmpleado(restauranteEmpleadoRequestDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
 }
