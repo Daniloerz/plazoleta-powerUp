@@ -1,7 +1,8 @@
 package com.plazoletapowerUp.infrastructure.input.rest;
 
+import com.plazoletapowerUp.application.dto.request.PlatosRequestDescriptionDto;
 import com.plazoletapowerUp.application.dto.request.PlatosRequestDto;
-import com.plazoletapowerUp.application.dto.request.PlatosRequestPatchDto;
+import com.plazoletapowerUp.application.dto.request.PlatosRequestPriceDto;
 import com.plazoletapowerUp.application.dto.response.PlatosPageResponseDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,18 +37,33 @@ public class PlatosRestController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @Operation(summary = "Update dish price and dish description")
+    @Operation(summary = "Update dish price")
     @ApiResponses(value = {
 
-            @ApiResponse(responseCode = "200", description = "Dish price and dish description updated correctly",
+            @ApiResponse(responseCode = "200", description = "Dish price updated correctly",
                     content = @Content)
     })
-    @PatchMapping("/price-description/{id}")
-    public ResponseEntity<Void> updateDishPriceDescription(@PathVariable Integer id,
-                                                           @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
+    @PatchMapping("/actualizar-precio/{id}")
+    public ResponseEntity<Void> updateDishPrice(@PathVariable (name = "id") Integer idPlato,
+                                                @RequestBody PlatosRequestPriceDto platosRequestPriceDto){
 
-        platosRequestPatchDto.setId(id);
-        platosHandler.updatePlatoByPriceDescription(platosRequestPatchDto);
+        platosRequestPriceDto.setId(idPlato);
+        platosHandler.updatePlatoByPrice(platosRequestPriceDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @Operation(summary = "Update dish description")
+    @ApiResponses(value = {
+
+            @ApiResponse(responseCode = "200", description = "Dish description updated correctly",
+                    content = @Content)
+    })
+    @PatchMapping("/actualizar-descripcion/{id}")
+    public ResponseEntity<Void> updateDishDescription(@PathVariable (name = "id") Integer idPlato,
+                                                      @RequestBody PlatosRequestDescriptionDto platosRequestDescriptionDto){
+
+        platosRequestDescriptionDto.setId(idPlato);
+        platosHandler.updatePlatoByDescription(platosRequestDescriptionDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

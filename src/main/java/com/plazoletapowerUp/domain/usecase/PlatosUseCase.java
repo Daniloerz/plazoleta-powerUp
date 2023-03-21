@@ -51,12 +51,19 @@ public class PlatosUseCase implements IPlatosServicePort {
     }
 
     @Override
-    public PlatosModel updatePlatoByPriceDescriptionSP(PlatosModel platosModel) {
-        PlatosModel platosModel1 = platosPersistencePort.findPlatoById(platosModel);
-        platosModel1.setPrecio(platosModel.getPrecio());
-        platosModel1.setDescripcion(platosModel.getDescripcion());
-        return platosPersistencePort.savePlatoPP(platosModel1);
+    public PlatosModel updatePlatoByPrice(PlatosModel platosModel) {
+        PlatosModel platosModelPrice = platosPersistencePort.findPlatoById(platosModel);
+        platosModelPrice.setPrecio(platosModel.getPrecio());
+        return platosPersistencePort.savePlatoPP(platosModelPrice);
     }
+
+    @Override
+    public PlatosModel updatePlatoByDescription(PlatosModel platosModel) {
+        PlatosModel platosModelDescription = platosPersistencePort.findPlatoById(platosModel);
+        platosModelDescription.setDescripcion(platosModel.getDescripcion());
+        return platosPersistencePort.savePlatoPP(platosModelDescription);
+    }
+
 
     @Override
     public PlatosModel updatePlatoActiveSP(Integer idPropietario,Integer idPlato, Boolean isActive) {
