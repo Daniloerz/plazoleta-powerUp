@@ -20,11 +20,11 @@ public class PedidosUseCase implements IPedidosServicePort {
 
     public final Logger log = LoggerFactory.getLogger(RestauranteUseCase.class);
 
-    private IPedidosPersistencePort pedidosPersistencePort;
-    private IRestaurantePersistencePort restaurantePersistencePort;
-    private IRestauranteEmpleadoPersistencePort restauranteEmpleadoPersistencePort;
-    private ITwilioClientPort twilioClientPort;
-    private IUsuarioClientPort usuarioClientPort;
+    private final IPedidosPersistencePort pedidosPersistencePort;
+    private final IRestaurantePersistencePort restaurantePersistencePort;
+    private final IRestauranteEmpleadoPersistencePort restauranteEmpleadoPersistencePort;
+    private final ITwilioClientPort twilioClientPort;
+    private final IUsuarioClientPort usuarioClientPort;
 
 
     public PedidosUseCase(IPedidosPersistencePort pedidosPersistencePort,
@@ -81,11 +81,9 @@ public class PedidosUseCase implements IPedidosServicePort {
     }
 
     @Override
-    public void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega) {
-        PedidoModel pedidoModel = pedidosPersistencePort.findPedidoById(idPedido);
-        this.validatePedidoDeCliente(pedidoModel.getIdCliente(), idCliente);
+    public void updatePedidoToDelivered(String codigoEntrega) {
+        PedidoModel pedidoModel = pedidosPersistencePort.findPedidoByCodigoEntrega(codigoEntrega);
         this.isPedidoListo(pedidoModel);
-        pedidosPersistencePort.findPedidoByCodigoEntrega(codigoEntrega);
         pedidoModel.setEstado(PedidoEstadoEnum.ENTREGADO.getDbValue());
         pedidosPersistencePort.savePedido(pedidoModel);
     }
@@ -186,12 +184,6 @@ public class PedidosUseCase implements IPedidosServicePort {
         }
     }
 
-    private void validatePedidoDeCliente (Integer idClientePedido, Integer idCliente){
-        if(idClientePedido != idCliente){
-            log.error("El cliente no se corresponde con el pedido");
-            throw new ValidationException("El cliente no se corresponde con el pedido");
-        }
-    }
 
     private void isPedidoListo (PedidoModel pedidoModel){
         if(!pedidoModel.getEstado().equals(PedidoEstadoEnum.LISTO.getDbValue())){

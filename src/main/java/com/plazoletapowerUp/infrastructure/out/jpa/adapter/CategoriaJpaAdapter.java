@@ -22,7 +22,7 @@ public class CategoriaJpaAdapter implements ICategoriaPersistencePort {
             CategoriaEntity categoriaEntity = categoriaEntityOptional.get();
             return categoriaEntityMapper.toCategoriaModel(categoriaEntity);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Categoria no encontrada");
         }
     }
 }

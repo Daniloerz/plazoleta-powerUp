@@ -87,11 +87,9 @@ public class PedidosRestController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Order delivered", content = @Content)
     })
-    @PatchMapping("/entregar-pedido/{idPedido}/{idCliente}/{codigoEntrega}")
-    public ResponseEntity<Void> updatePedidoToDelivered (@PathVariable Integer idPedido,
-                                                         @PathVariable Integer idCliente,
-                                                         @PathVariable String codigoEntrega){
-        pedidosHandler.updatePedidoToDelivered(idPedido, idCliente, codigoEntrega);
+    @PatchMapping("/entregar-pedido/{codigoEntrega}")
+    public ResponseEntity<Void> updatePedidoToDelivered ( @PathVariable String codigoEntrega){
+        pedidosHandler.updatePedidoToDelivered(codigoEntrega);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -25,9 +25,9 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(NoDataFoundException.class)
     public ResponseEntity<Map<String, String>> handleNoDataFoundException(
-            NoDataFoundException ignoredNoDataFoundException) {
+            NoDataFoundException noDataFoundException) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.NO_DATA_FOUND.getMessage()));
+                .body(Collections.singletonMap(MESSAGE, noDataFoundException.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)

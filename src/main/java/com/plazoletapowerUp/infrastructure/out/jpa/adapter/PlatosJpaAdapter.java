@@ -36,7 +36,7 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
             PlatoEntity platoEntity = platosEntityOptional.get();
             return platosEntityMapper.toPlatosModel(platoEntity);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Plato no encontrado");
         }
     }
 
@@ -47,7 +47,7 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
             PlatoEntity platoEntity = platosEntityOptional.get();
             return platosEntityMapper.toPlatosModel(platoEntity);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Plato no encontrado");
         }
     }
 
@@ -61,9 +61,9 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
         if (!platosEntityList.isEmpty()){
             platosModelList = platosEntityMapper.toPlatoRestauranteModelList(platosEntityList);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("No se encontraron platos para este restaurante");
         }
-        PlatosRestaurantePageableModel platosRestaurantePageableModel = new PlatosRestaurantePageableModel(iPlatoRestaurante.getTotalPages(), platosModelList);
-        return platosRestaurantePageableModel;
+        return new PlatosRestaurantePageableModel(iPlatoRestaurante.getTotalPages(), platosModelList);
+
     }
 }

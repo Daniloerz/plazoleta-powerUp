@@ -19,7 +19,7 @@ public interface IPedidosServicePort {
 
     void updatePedidoToReady(Integer idPedido);
 
-    void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega);
+    void updatePedidoToDelivered(String codigoEntrega);
 
     void cancelarPedido(Integer idPedido);
 }
