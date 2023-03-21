@@ -29,13 +29,13 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
     }
 
     @Override
-    public RestauranteModel findByIdPP(Integer id) throws NoDataFoundException {
+    public RestauranteModel findByIdPP(Integer id){
         Optional<RestauranteEntity> restauranteEntityOptional = restauranteRepository.findById(id);
         if (restauranteEntityOptional.isPresent()){
             RestauranteEntity restauranteEntity = restauranteEntityOptional.get();
             return restauranteEntityMapper.toRestauranteModel(restauranteEntity);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Restaurante no encontrado");
         }
     }
 
@@ -49,10 +49,9 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
         List<RestauranteEntity> restauranteEntityList =restauranteEntityPage.getContent();
         List<RestauranteModel> restauranteModelList = restauranteEntityMapper.toRestauranteModelList(restauranteEntityList);
 
-        RestaurantePageableModel restaurantePageableModel = new RestaurantePageableModel(pagesAmount,
+        return new RestaurantePageableModel(pagesAmount,
                 restauranteModelList.size(),
                 restauranteModelList);
-        return restaurantePageableModel;
     }
 
 }

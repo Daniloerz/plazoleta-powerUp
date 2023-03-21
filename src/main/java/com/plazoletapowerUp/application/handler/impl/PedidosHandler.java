@@ -60,8 +60,8 @@ public class PedidosHandler implements IPedidosHandler {
     }
 
     @Override
-    public void updatePedidoToDelivered(Integer idPedido, Integer idCliente, String codigoEntrega) {
-        pedidosServicePort.updatePedidoToDelivered(idPedido, idCliente, codigoEntrega);
+    public void updatePedidoToDelivered(String codigoEntrega) {
+        pedidosServicePort.updatePedidoToDelivered(codigoEntrega);
     }
 
     @Override

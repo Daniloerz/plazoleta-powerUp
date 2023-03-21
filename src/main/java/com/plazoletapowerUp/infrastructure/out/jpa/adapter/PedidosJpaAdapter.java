@@ -53,7 +53,7 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
 
     @Override
     public List<PedidoModel> findPedidosByIdClientePP(Integer idCliente) {
-        List<PedidoEntity> pedidoEntity = pedidosRepository.getByIdCliente(idCliente);
+        List<PedidoEntity> pedidoEntity = pedidosRepository.findByIdCliente(idCliente);
         return pedidosEntityMapper.toPedidosModel(pedidoEntity);
     }
 
@@ -67,14 +67,14 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
         List<PedidoModel> pedidoModelList;
         Pageable pageable = PageRequest.of(initPage, numElemPage);
         Page<PedidoEntity> pedidoEntities = pedidosRepository
-                .getByIdRestauranteAndEstado(idRestaurante, estado, pageable);
+                .findByIdRestauranteAndEstado(idRestaurante, estado, pageable);
         List<PedidoEntity> pedidoEntityList = pedidoEntities.getContent();
         if (!pedidoEntityList.isEmpty()) {
             pedidoModelList = pedidosEntityMapper.toPedidosModel(pedidoEntityList);
             return new PedidosPageableModel(pedidoEntities.getTotalPages(),
                     pedidoModelList);
         } else {
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Pedido no encontrado por estado seleccionado");
         }
     }
 
@@ -87,11 +87,11 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
 
     @Override
     public PedidoModel findPedidoByCodigoEntrega(String codigoEntrega) {
-        PedidoEntity pedidoEntity = pedidosRepository.getByCodigoEntrega(codigoEntrega);
+        PedidoEntity pedidoEntity = pedidosRepository.findByCodigoEntrega(codigoEntrega);
         if(pedidoEntity != null){
             return pedidosEntityMapper.toModel(pedidoEntity);
         } else{
-            throw new NoDataFoundException();
+            throw new NoDataFoundException("Codigo de entrega no encontrado para pedido");
         }
     }
 
