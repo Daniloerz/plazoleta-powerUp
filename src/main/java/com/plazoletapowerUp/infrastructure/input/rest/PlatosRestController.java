@@ -6,6 +6,7 @@ import com.plazoletapowerUp.application.dto.response.PlatosPageResponseDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -26,49 +27,52 @@ public class PlatosRestController {
 
     @Operation(summary = "Add a new dish")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Dish created", content = @Content),
-            @ApiResponse(responseCode = "409", description = "Dish already exists", content = @Content),
-            @ApiResponse(responseCode = "200", description = "Dish updated correctly", content = @Content),
+            @ApiResponse(responseCode = "201", description = "Dish created", content = @Content)
     })
     @PostMapping("/{idPropietario}")
     public ResponseEntity<Void> createPlato(@RequestBody PlatosRequestDto platosRequestDto,
                                             @PathVariable Integer idPropietario) {
-        try {
-            platosHandler.savePlatos(platosRequestDto, idPropietario);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        platosHandler.savePlatos(platosRequestDto, idPropietario);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Update dish price and dish description")
+    @ApiResponses(value = {
+
+            @ApiResponse(responseCode = "200", description = "Dish price and dish description updated correctly",
+                    content = @Content)
+    })
     @PatchMapping("/price-description/{id}")
     public ResponseEntity<Void> updateDishPriceDescription(@PathVariable Integer id,
                                                            @RequestBody PlatosRequestPatchDto platosRequestPatchDto){
 
-        try {
-            platosRequestPatchDto.setId(id);
-            platosHandler.updatePlatoByPriceDescription(platosRequestPatchDto);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        platosRequestPatchDto.setId(id);
+        platosHandler.updatePlatoByPriceDescription(platosRequestPatchDto);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "Update dish active")
+    @ApiResponses(value = {
+
+            @ApiResponse(responseCode = "200", description = "Dish active updated correctly",
+                    content = @Content)
+    })
     @PatchMapping("/active/{idPropietario}/{idPlato}")
     public ResponseEntity<Void> updateDishActive(@PathVariable Integer idPropietario,
                                                  @PathVariable Integer idPlato,
                                                  @RequestParam Boolean isActive){
-        try {
-            platosHandler.updatePlatoActive(idPropietario, idPlato, isActive);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        platosHandler.updatePlatoActive(idPropietario, idPlato, isActive);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all dishes from a restaurant with pagination")
+    @ApiResponses(value = {
+
+            @ApiResponse(responseCode = "200", description = "Dishes from a specific restaurant found",
+                    content = @Content(schema = @Schema(implementation = PlatosPageResponseDto.class)))
+    })
     @GetMapping("/{id_restaurante}")
-    public ResponseEntity<PlatosPageResponseDto> findAllRestaurantes(@PathVariable Integer id_restaurante,
+    public ResponseEntity<PlatosPageResponseDto> findAllByRestaurante(@PathVariable Integer id_restaurante,
                                                                      @RequestParam (defaultValue = "1")
                                                                      @Min(1) Integer initPage,
                                                                      @RequestParam (defaultValue = "10")
@@ -80,6 +84,5 @@ public class PlatosRestController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
 
 }

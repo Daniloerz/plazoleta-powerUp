@@ -13,6 +13,7 @@ import com.plazoletapowerUp.infrastructure.enums.PedidoEstadoEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -176,12 +177,14 @@ public class PedidosUseCase implements IPedidosServicePort {
         try{
             UsuarioResponseDtoModel usuarioById = usuarioClientPort.findUsuarioById(idCliente);
             MessageModel messageModel = new MessageModel(usuarioById.getCelular(), codigo);
-            twilioClientPort.sendMessage(messageModel);
+            boolean result = twilioClientPort.sendMessage(messageModel);
+            if(!result){
+                throw new RuntimeException("Error invocando twilio service");
+            }
         } catch (Exception e){
             log.error("Error invocando twilio service", e);
             throw new RuntimeException(e);
         }
-
     }
 
     private void validatePedidoDeCliente (Integer idClientePedido, Integer idCliente){
