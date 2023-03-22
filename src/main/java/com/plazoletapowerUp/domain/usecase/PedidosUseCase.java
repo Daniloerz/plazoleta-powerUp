@@ -7,12 +7,15 @@ import com.plazoletapowerUp.domain.exception.ValidationException;
 import com.plazoletapowerUp.domain.model.*;
 import com.plazoletapowerUp.domain.responseDtoModel.UsuarioResponseDtoModel;
 import com.plazoletapowerUp.domain.spi.IPedidosPersistencePort;
+import com.plazoletapowerUp.domain.spi.IPlatosPersistencePort;
 import com.plazoletapowerUp.domain.spi.IRestauranteEmpleadoPersistencePort;
 import com.plazoletapowerUp.domain.spi.IRestaurantePersistencePort;
 import com.plazoletapowerUp.infrastructure.enums.PedidoEstadoEnum;
+import com.plazoletapowerUp.infrastructure.exception.NoDataFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -25,22 +28,26 @@ public class PedidosUseCase implements IPedidosServicePort {
     private final IRestauranteEmpleadoPersistencePort restauranteEmpleadoPersistencePort;
     private final ITwilioClientPort twilioClientPort;
     private final IUsuarioClientPort usuarioClientPort;
+    private final IPlatosPersistencePort platosPersistencePort;
 
 
     public PedidosUseCase(IPedidosPersistencePort pedidosPersistencePort,
                           IRestaurantePersistencePort restaurantePersistencePort,
                           IRestauranteEmpleadoPersistencePort restauranteEmpleadoPersistencePort,
-                          ITwilioClientPort twilioClientPort, IUsuarioClientPort usuarioClientPort) {
+                          ITwilioClientPort twilioClientPort, IUsuarioClientPort usuarioClientPort,
+                          IPlatosPersistencePort platosPersistencePort) {
         this.pedidosPersistencePort = pedidosPersistencePort;
         this.restaurantePersistencePort = restaurantePersistencePort;
         this.restauranteEmpleadoPersistencePort = restauranteEmpleadoPersistencePort;
         this.twilioClientPort = twilioClientPort;
         this.usuarioClientPort = usuarioClientPort;
+        this.platosPersistencePort = platosPersistencePort;
     }
 
     @Override
     public void savePedidoSP(PedidoModel pedidoModel, List<PedidoPlatosModel> pedidoPlatosModelList) {
        this.validatePedido(pedidoModel);
+       this.validatePlatos(pedidoPlatosModelList);
         pedidosPersistencePort.savePedidosPP(pedidoModel, pedidoPlatosModelList);
     }
 
@@ -60,10 +67,17 @@ public class PedidosUseCase implements IPedidosServicePort {
         RestauranteEmpleadoModel restauranteEmpleadoModel =
                 this.validateRestauranteEmpleado(idEmpleado);
         PedidoModel pedidoModel = pedidosPersistencePort.findPedidoById(idPedido);
+
+        if(!pedidoModel.getEstado().equals(PedidoEstadoEnum.PENDIENTE.getDbValue())){
+            log.error("Estado incorrecto de pedido para ser actualizado");
+            throw new ValidationException("Estado incorrecto de pedido para ser actualizado");
+        }
+
         if(!(restauranteEmpleadoModel.getIdRestaurante() == pedidoModel.getIdRestaurante())){
             log.error("Empleado no autorizado");
             throw new ValidationException("Empleado no autorizado");
         }
+
         pedidoModel.setIdEmpleado(idEmpleado);
         pedidoModel.setEstado(estado);
 
@@ -102,6 +116,7 @@ public class PedidosUseCase implements IPedidosServicePort {
     }
 
     public void validatePedido(PedidoModel pedidoModel){
+        this.validateUsuarioCliente(pedidoModel);
         this.validateRestaurante(pedidoModel);
         this.validatePedidosEnProcesoCliente(pedidoModel);
     }
@@ -131,9 +146,42 @@ public class PedidosUseCase implements IPedidosServicePort {
         }
     }
 
+    private void validateUsuarioCliente(PedidoModel pedidoModel) {
+        UsuarioResponseDtoModel usuarioById = usuarioClientPort.findUsuarioById(pedidoModel.getIdCliente());
+        if (usuarioById == null){
+            log.error("Usuario no encontrado");
+            throw new ValidationException("Usuario no encontrado");
+        }
+    }
+
+    private void validatePlato(PedidoModel pedidoModel) {
+        UsuarioResponseDtoModel usuarioById = usuarioClientPort.findUsuarioById(pedidoModel.getIdCliente());
+        if (usuarioById == null){
+            log.error("Usuario no encontrado");
+            throw new ValidationException("Usuario no encontrado");
+        }
+    }
+
+    private void validatePlatos(List<PedidoPlatosModel> pedidoPlatosModelList) {
+        List<Integer> platosNotFound = new ArrayList<>();
+        PlatosModel platosModel = new PlatosModel();
+        for (int i = 0; i < pedidoPlatosModelList.size(); i++) {
+            try {
+                platosModel = platosPersistencePort.findPlatoById(pedidoPlatosModelList.get(i).getIdPlato());
+            } catch (Exception e) {
+                platosNotFound.add(pedidoPlatosModelList.get(i).getIdPlato());
+            }
+
+            if (platosNotFound.size() > 0) {
+                throw new ValidationException("Platos del pedido no encontrados. Id platos no encontrados: "
+                        + platosNotFound);
+            }
+        }
+    }
+
     private void validateRestauranteEmpleado(Integer idEmpleado, Integer idRestaurante){
         RestauranteEmpleadoModel restauranteEmpleadoModel =
-                restauranteEmpleadoPersistencePort.findEmpleadoById(idEmpleado);
+                restauranteEmpleadoPersistencePort.findEmpleadoByIdAndIdRestaurante(idEmpleado, idRestaurante);
         if(restauranteEmpleadoModel == null){
             log.error("Empleado no encontrado");
             throw new ValidationException("Empleado no encontrado");

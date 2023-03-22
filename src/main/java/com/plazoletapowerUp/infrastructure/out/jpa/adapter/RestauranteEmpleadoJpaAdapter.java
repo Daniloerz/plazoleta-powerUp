@@ -2,6 +2,7 @@ package com.plazoletapowerUp.infrastructure.out.jpa.adapter;
 
 import com.plazoletapowerUp.domain.model.RestauranteEmpleadoModel;
 import com.plazoletapowerUp.domain.spi.IRestauranteEmpleadoPersistencePort;
+import com.plazoletapowerUp.infrastructure.exception.NoDataFoundException;
 import com.plazoletapowerUp.infrastructure.out.jpa.entity.RestauranteEmpleadoEntity;
 import com.plazoletapowerUp.infrastructure.out.jpa.mapper.IRestauranteEmpleadoEntityMapper;
 import com.plazoletapowerUp.infrastructure.out.jpa.repository.IRestauranteEmpleadoRepository;
@@ -28,8 +29,23 @@ public class RestauranteEmpleadoJpaAdapter implements IRestauranteEmpleadoPersis
     }
 
     @Override
-    public RestauranteEmpleadoModel findEmpleadoById(Integer idEmpleado) {
-        return restauranteEmpleadoEntityMapper
-                .toRestauranteEmpleadoModel(restauranteEmpleadoRepository.getByIdUsuario(idEmpleado));
+    public RestauranteEmpleadoModel findEmpleadoByIdAndIdRestaurante(Integer idEmpleado, Integer idRestaurante) {
+        RestauranteEmpleadoEntity restauranteEmpleadoEntity = restauranteEmpleadoRepository
+                .getByIdUsuarioAndIdRestaurante(idEmpleado, idRestaurante);
+        if (restauranteEmpleadoEntity != null){
+            return restauranteEmpleadoEntityMapper.toRestauranteEmpleadoModel(restauranteEmpleadoEntity);
+        } else {
+            throw new NoDataFoundException("Empleado no encontrado para este restaurante");
+        }
     }
+
+    @Override
+    public RestauranteEmpleadoModel findEmpleadoById(Integer idEmpleado) {
+        RestauranteEmpleadoEntity restauranteEmpleadoEntity = restauranteEmpleadoRepository
+                .getByIdUsuario(idEmpleado);
+        if (restauranteEmpleadoEntity != null){
+            return restauranteEmpleadoEntityMapper.toRestauranteEmpleadoModel(restauranteEmpleadoEntity);
+        } else {
+            throw new NoDataFoundException("Empleado no encontrado para este restaurante");
+        }    }
 }

@@ -37,6 +37,8 @@ public class RestauranteEmpleadoUseCase implements IRestauranteEmpleadoServicePo
     private void validateRestauranteEmpleado(RestauranteEmpleadoModel restauranteEmpleadoModel) {
         this.validateUsuario(restauranteEmpleadoModel);
         this.validateRestaurante(restauranteEmpleadoModel);
+        this.validateRestauranteEmpleadoPreInsert
+                (restauranteEmpleadoModel.getIdUsuario(), restauranteEmpleadoModel.getIdRestaurante());
     }
 
     private void validateUsuario(RestauranteEmpleadoModel restauranteEmpleadoModel){
@@ -59,6 +61,18 @@ public class RestauranteEmpleadoUseCase implements IRestauranteEmpleadoServicePo
         if(restauranteModel == null){
             log.error("No se encontro el restaurante");
             throw new ValidationException("No se encontro el restaurante");
+        }
+    }
+
+    private void validateRestauranteEmpleadoPreInsert (Integer idEmpleado, Integer idRestaurante){
+        RestauranteEmpleadoModel restauranteEmpleadoModel;
+        try{
+            restauranteEmpleadoModel= restauranteEmpleadoPersistencePort.findEmpleadoByIdAndIdRestaurante(idEmpleado, idRestaurante);
+        } catch (Exception e){
+            return;
+        }
+        if(restauranteEmpleadoModel != null){
+            throw new ValidationException("El empleado ya existe para restaurante");
         }
     }
 }

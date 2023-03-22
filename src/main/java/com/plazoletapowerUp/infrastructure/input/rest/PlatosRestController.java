@@ -6,6 +6,7 @@ import com.plazoletapowerUp.application.dto.request.PlatosRequestPriceDto;
 import com.plazoletapowerUp.application.dto.response.PlatosPageResponseDto;
 import com.plazoletapowerUp.application.handler.IPlatosHandler;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -32,6 +33,7 @@ public class PlatosRestController {
     })
     @PostMapping("/{idPropietario}")
     public ResponseEntity<Void> createPlato(@RequestBody PlatosRequestDto platosRequestDto,
+                                            @Parameter(description = "Id propietario restaurante")
                                             @PathVariable Integer idPropietario) {
         platosHandler.savePlatos(platosRequestDto, idPropietario);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -73,10 +75,12 @@ public class PlatosRestController {
             @ApiResponse(responseCode = "200", description = "Dish active updated correctly",
                     content = @Content)
     })
-    @PatchMapping("/active/{idPropietario}/{idPlato}")
-    public ResponseEntity<Void> updateDishActive(@PathVariable Integer idPropietario,
+    @PatchMapping("/active/{id}/{idPlato}")
+    public ResponseEntity<Void> updateDishActive(@Parameter(description = "Id propietario restaurante")
+                                                     @PathVariable(name = "id") Integer idPropietario,
                                                  @PathVariable Integer idPlato,
-                                                 @RequestParam Boolean isActive){
+                                                 @Parameter(description = "Habilitar/inhabilitar plato")
+                                                     @RequestParam Boolean isActive){
         platosHandler.updatePlatoActive(idPropietario, idPlato, isActive);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -89,11 +93,11 @@ public class PlatosRestController {
     })
     @GetMapping("/{id_restaurante}")
     public ResponseEntity<PlatosPageResponseDto> findAllByRestaurante(@PathVariable Integer id_restaurante,
-                                                                     @RequestParam (defaultValue = "1")
+                                                                     @RequestParam (defaultValue = "1", required = false)
                                                                      @Min(1) Integer initPage,
-                                                                     @RequestParam (defaultValue = "10")
+                                                                     @RequestParam (defaultValue = "10", required = false)
                                                                          @Min(1) Integer numElementsPage){
-        final PlatosPageResponseDto platosByIdRestaurante = platosHandler.findPlatosByIdRestaurante(id_restaurante, initPage, numElementsPage);
+        PlatosPageResponseDto platosByIdRestaurante = platosHandler.findPlatosByIdRestaurante(id_restaurante, initPage, numElementsPage);
         if (platosByIdRestaurante != null){
             return ResponseEntity.ok(platosByIdRestaurante);
         } else {

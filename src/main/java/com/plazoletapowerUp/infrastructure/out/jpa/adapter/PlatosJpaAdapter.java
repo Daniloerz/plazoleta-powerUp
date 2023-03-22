@@ -64,6 +64,5 @@ public class PlatosJpaAdapter implements IPlatosPersistencePort {
             throw new NoDataFoundException("No se encontraron platos para este restaurante");
         }
         return new PlatosRestaurantePageableModel(iPlatoRestaurante.getTotalPages(), platosModelList);
-
     }
 }
