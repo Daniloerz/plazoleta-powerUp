@@ -14,6 +14,10 @@ public class TwilioClientAdapter implements ITwilioClientPort {
 
     @Override
     public Boolean sendMessage(MessageModel messageModel) {
-        return twilioRestClient.sendMessage(messageRequestMapper.toRequestDto(messageModel));
+        try{
+            return twilioRestClient.sendMessage(messageRequestMapper.toRequestDto(messageModel));
+        } catch (Exception e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

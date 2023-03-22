@@ -45,13 +45,16 @@ public class RestauranteJpaAdapter implements IRestaurantePersistencePort {
         Integer pageSize = 10;
         Pageable pageable = PageRequest.of(initPage,pageSize, Sort.by("nombre"));
         Page<RestauranteEntity> restauranteEntityPage = restauranteRepository.findAll(pageable);
-        Integer pagesAmount = restauranteEntityPage.getTotalPages();
-        List<RestauranteEntity> restauranteEntityList =restauranteEntityPage.getContent();
-        List<RestauranteModel> restauranteModelList = restauranteEntityMapper.toRestauranteModelList(restauranteEntityList);
+        if(restauranteEntityPage != null){
+            Integer pagesAmount = restauranteEntityPage.getTotalPages();
+            List<RestauranteEntity> restauranteEntityList =restauranteEntityPage.getContent();
+            List<RestauranteModel> restauranteModelList = restauranteEntityMapper.toRestauranteModelList(restauranteEntityList);
 
-        return new RestaurantePageableModel(pagesAmount,
-                restauranteModelList.size(),
-                restauranteModelList);
+            return new RestaurantePageableModel(pagesAmount,
+                    restauranteModelList.size(),
+                    restauranteModelList);
+        } else {
+            throw new NoDataFoundException("Restaurantes no encontrados");
+        }
     }
-
 }

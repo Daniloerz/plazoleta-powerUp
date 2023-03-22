@@ -40,6 +40,7 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
         final Map<Integer, Integer> platoCantidad = pedidoPlatosModelList.stream().collect(Collectors
                 .toMap(PedidoPlatosModel::getIdPlato, PedidoPlatosModel::getCantidad));
 
+
             platosRepository.findAllById(platoCantidad.keySet())
                     .forEach(plato -> pedidosPlatosRepository
                             .save(new PedidoPlatoEntity(null,
@@ -54,7 +55,12 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
     @Override
     public List<PedidoModel> findPedidosByIdClientePP(Integer idCliente) {
         List<PedidoEntity> pedidoEntity = pedidosRepository.findByIdCliente(idCliente);
-        return pedidosEntityMapper.toPedidosModel(pedidoEntity);
+        if (pedidoEntity != null){
+            return pedidosEntityMapper.toPedidosModel(pedidoEntity);
+        } else {
+            throw new NoDataFoundException("Pedido no encontrado para el cliente");
+
+        }
     }
 
     @Override
@@ -67,7 +73,7 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
         List<PedidoModel> pedidoModelList;
         Pageable pageable = PageRequest.of(initPage, numElemPage);
         Page<PedidoEntity> pedidoEntities = pedidosRepository
-                .findByIdRestauranteAndEstado(idRestaurante, estado, pageable);
+                .getByIdRestauranteAndEstado(idRestaurante, estado, pageable);
         List<PedidoEntity> pedidoEntityList = pedidoEntities.getContent();
         if (!pedidoEntityList.isEmpty()) {
             pedidoModelList = pedidosEntityMapper.toPedidosModel(pedidoEntityList);
@@ -81,8 +87,12 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
     @Override
     public PedidoModel findPedidoById(Integer idPedido) {
         Optional<PedidoEntity> pedidoEntityOptional = pedidosRepository.findById(idPedido);
-        PedidoEntity pedidoEntity = pedidoEntityOptional.get();
-        return pedidosEntityMapper.toModel(pedidoEntity);
+        if(pedidoEntityOptional.isPresent()){
+            PedidoEntity pedidoEntity = pedidoEntityOptional.get();
+            return pedidosEntityMapper.toModel(pedidoEntity);
+        } else {
+            throw new NoDataFoundException("Pedido no encontrado por estado seleccionado");
+        }
     }
 
     @Override
@@ -94,6 +104,4 @@ public class PedidosJpaAdapter implements IPedidosPersistencePort {
             throw new NoDataFoundException("Codigo de entrega no encontrado para pedido");
         }
     }
-
-
 }

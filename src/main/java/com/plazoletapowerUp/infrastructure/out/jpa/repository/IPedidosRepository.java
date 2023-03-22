@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface IPedidosRepository extends JpaRepository<PedidoEntity, Integer> {
     List<PedidoEntity> findByIdCliente(Integer idCliente);
-    Page<PedidoEntity> findByIdRestauranteAndEstado(Integer idRestaurante, String estado, Pageable page);
+    Page<PedidoEntity> getByIdRestauranteAndEstado(Integer idRestaurante, String estado, Pageable page);
     PedidoEntity findByCodigoEntrega(String codigoEntrega);
 }

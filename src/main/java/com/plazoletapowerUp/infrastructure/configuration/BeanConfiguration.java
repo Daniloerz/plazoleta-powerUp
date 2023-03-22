@@ -92,7 +92,7 @@ public class BeanConfiguration {
 
         return new PedidosUseCase(pedidosPersistencePort(),
                 restaurantePersistencePort(), restauranteEmpleadoPersistencePort(),
-                twilioClientPort(), usuarioClientPort());
+                twilioClientPort(), usuarioClientPort(), platosPersistencePort());
     }
 
     @Bean
